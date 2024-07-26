@@ -9,7 +9,7 @@ provider:
 
 functions:
   express:
-    handler: src/handler.handler
+    handler: src/handler.index
     url: true
     events:
       - httpApi: "*"

@@ -3,16 +3,6 @@ service: aws-node-express-api
 plugins:
   - serverless-esbuild
 
-custom:
-  esbuild:
-    bundle: true
-    minify: true
-
-package:
-  individually: true
-  patterns:
-    - "!src/**/*.spec.*"
-
 provider:
   name: aws
   runtime: nodejs20.x

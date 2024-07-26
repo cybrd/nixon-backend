@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "deploy": "serverless deploy"
+    "deploy": "serverless deploy --verbose --debug=true"
   },
   "keywords": [],
   "author": "",

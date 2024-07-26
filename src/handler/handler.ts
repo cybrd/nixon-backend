@@ -1,5 +1,6 @@
 import serverless from "serverless-http";
 import express from "express";
+import { Handler } from "aws-lambda";
 
 const app = express();
 
@@ -21,4 +22,9 @@ app.use((req, res, next) => {
   });
 });
 
-export const handler = serverless(app);
+const handler = serverless(app);
+
+export const index: Handler = async (event, context) => {
+  const result = await handler(event, context);
+  return result;
+};

@@ -2,6 +2,7 @@
   "name": "nixon-backend",
   "version": "1.0.0",
   "description": "",
+  "main": "index.js",
   "scripts": {
     "deploy": "serverless deploy --verbose --debug=true"
   },
@@ -10,6 +11,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/express": "^4.17.21",
+    "esbuild": "^0.23.0",
     "serverless": "^3.39.0",
     "serverless-esbuild": "^1.52.1",
     "typescript": "^5.5.4"

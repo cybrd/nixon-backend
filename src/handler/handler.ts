@@ -21,4 +21,4 @@ app.use((req, res, next) => {
   });
 });
 
-exports.handler = serverless(app);
+export const handler = serverless(app);

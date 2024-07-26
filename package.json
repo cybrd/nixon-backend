@@ -2,7 +2,6 @@
   "name": "nixon-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "deploy": "serverless deploy --verbose --debug=true"
   },

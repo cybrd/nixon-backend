@@ -18,7 +18,8 @@ provider:
   runtime: nodejs20.x
 
 functions:
-  api:
+  express:
     handler: src/handler.handler
+    url: true
     events:
       - httpApi: "*"

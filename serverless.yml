@@ -10,6 +10,5 @@ provider:
 functions:
   express:
     handler: src/handler.index
-    url: true
     events:
       - httpApi: "*"

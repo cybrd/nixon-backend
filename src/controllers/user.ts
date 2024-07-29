@@ -2,6 +2,7 @@ import { Router } from "express";
 import { sign } from "jsonwebtoken";
 
 import { authUser } from "../services/user";
+import { connectMongodb } from "../connections";
 
 export const userController = Router();
 
@@ -13,8 +14,9 @@ type UserSignInBody = {
 userController.post("/login", (req, res) => {
   (async () => {
     const body = req.body as UserSignInBody;
+    const mongodbClient = await connectMongodb();
 
-    const user = await authUser(body.username, body.password);
+    const user = await authUser(mongodbClient, body.username, body.password);
 
     if (user) {
       res.send({

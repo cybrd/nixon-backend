@@ -1,10 +1,12 @@
-import { connectMongodb } from "../connections";
+import { MongoClient } from "mongodb";
 import { User } from "../models/user";
 
-export const authUser = async (username: string, password: string) => {
+export const authUser = async (
+  client: MongoClient,
+  username: string,
+  password: string
+) => {
   console.log("authUser", username);
-
-  const client = await connectMongodb();
 
   const collection = client.db("nixon").collection<User>("user");
 

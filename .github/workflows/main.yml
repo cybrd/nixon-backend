@@ -23,7 +23,7 @@ jobs:
       - name: Setup Nodejs
         uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: 9
           run_install: false
 
       - name: Install Node.js
@@ -33,7 +33,7 @@ jobs:
           cache: "pnpm"
 
       - name: Pnpm install
-        run: pnpm install --frozen-lockfile
+        run: pnpm ci
 
       - name: Create env file
         run: |

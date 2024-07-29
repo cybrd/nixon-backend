@@ -39,8 +39,8 @@ jobs:
         run: |
           touch .env
           echo MONGODB_URI=${{ secrets.MONGODB_URI }} >> .env
-          echo MONGODB_URI=${{ secrets.MONGODB_USERNAME }} >> .env
-          echo MONGODB_URI=${{ secrets.MONGODB_PASSWORD }} >> .env
+          echo MONGODB_USERNAME=${{ secrets.MONGODB_USERNAME }} >> .env
+          echo MONGODB_PASSWORD=${{ secrets.MONGODB_PASSWORD }} >> .env
           cat .env
 
       - name: Serverless deploy

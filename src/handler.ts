@@ -1,24 +1,20 @@
 import serverless from "serverless-http";
 import express from "express";
+import { connectMongodb } from "./connections";
+import { userController } from "./controllers/user";
 
 const app = express();
 
-app.get("/", (req, res, next) => {
-  return res.status(200).json({
-    message: "Hello from root!",
-  });
-});
+app.use(userController);
 
-app.get("/hello", (req, res, next) => {
-  return res.status(200).json({
-    message: "Hello from path!",
-  });
-});
-
-app.use((req, res, next) => {
+app.use((req, res) => {
   return res.status(404).json({
     error: "Not Found",
   });
 });
 
-export const index = serverless(app);
+export const index = async () => {
+  await connectMongodb();
+
+  return serverless(app);
+};

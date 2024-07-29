@@ -26,5 +26,10 @@ jobs:
       - name: Npm install
         run: npm ci
 
+      - name: Create env file
+        run: |
+          touch .env
+          echo MONGODB_URI=${{ secrets.MONGODB_URI }} >> .env
+
       - name: Serverless deploy
         run: npm run deploy

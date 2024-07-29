@@ -2,6 +2,8 @@ import { MongoClient } from "mongodb";
 import { config } from "dotenv";
 config();
 
+console.log("process.env.MONGODB_URI", process.env.MONGODB_URI);
+
 export const mongoClient = new MongoClient(process.env.MONGODB_URI || "", {
   auth: {
     username: process.env.MONGODB_USERNAME || "",

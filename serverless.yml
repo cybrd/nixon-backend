@@ -2,6 +2,9 @@ service: aws-node-express-api
 
 plugins:
   - serverless-esbuild
+  - serverless-dotenv-plugin
+
+useDotenv: true
 
 provider:
   name: aws

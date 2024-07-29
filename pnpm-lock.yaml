@@ -57,6 +57,9 @@ importers:
       serverless:
         specifier: ^3.39.0
         version: 3.39.0
+      serverless-dotenv-plugin:
+        specifier: ^6.0.0
+        version: 6.0.0(serverless@3.39.0)
       serverless-esbuild:
         specifier: ^1.52.1
         version: 1.52.1(esbuild@0.20.2)
@@ -2655,6 +2658,11 @@ packages:
   serve-static@1.15.0:
     resolution: {integrity: sha512-XGuRDNjXUijsUL0vl6nSD7cwURuzEgglbOaFuZM9g3kwDXOWVTck0jLzjPzGD+TazWbboZYu52/9/XPdUgne9g==}
     engines: {node: '>= 0.8.0'}
+
+  serverless-dotenv-plugin@6.0.0:
+    resolution: {integrity: sha512-8tLVNwHfDO0sBz6+m+DLTZquRk0AZq9rzqk3kphm1iIWKfan9R7RKt4hdq3eQ0kmDoqzudjPYBEXAJ5bUNKeGQ==}
+    peerDependencies:
+      serverless: 1 || 2 || pre-3 || 3
 
   serverless-esbuild@1.52.1:
     resolution: {integrity: sha512-sTEVoJMFO213SJyEEvW4yf3FbxRkn3jZgp/bA2zOguVXv2veNptVzo3Cmn7pZVIrjv8HKH6uEq/E65bJhOO5yA==}
@@ -6726,6 +6734,13 @@ snapshots:
       send: 0.18.0
     transitivePeerDependencies:
       - supports-color
+
+  serverless-dotenv-plugin@6.0.0(serverless@3.39.0):
+    dependencies:
+      chalk: 4.1.2
+      dotenv: 16.4.5
+      dotenv-expand: 10.0.0
+      serverless: 3.39.0
 
   serverless-esbuild@1.52.1(esbuild@0.20.2):
     dependencies:

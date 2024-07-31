@@ -1,24 +1,27 @@
 import assert from "assert";
-import { MongoClient } from "mongodb";
-import { connectMongodb } from "../../src/connections";
-import { authUser } from "../../src/services/user";
+
+import { mongoClient } from "../../src/connections";
+
+import { getUserByUsernameAndPassword } from "../../src/services/user";
 
 describe("service user", () => {
-  let client: MongoClient;
-
-  before(async () => {
-    client = await connectMongodb();
-  });
-
-  describe("authUser", () => {
+  describe("getUserByUsernameAndPassword", () => {
     it("works success", async () => {
-      const result = await authUser(client, "joy", "joy");
+      const result = await getUserByUsernameAndPassword(
+        mongoClient,
+        "joy",
+        "joy"
+      );
 
       assert.ok(result);
     });
 
     it("works fail", async () => {
-      const result = await authUser(client, "joy1", "joy2");
+      const result = await getUserByUsernameAndPassword(
+        mongoClient,
+        "joy1",
+        "joy2"
+      );
 
       assert.strictEqual(result, null);
     });

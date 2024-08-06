@@ -1,0 +1,46 @@
+under,violation,description,penalty
+Attendance,1,"Incurring more than eight (8) instances of tardiness in two (2) months.*Being late in the morning or in the afternoon is counted as one (1) instance of tardiness.*Under time is considered one (1) late.",A
+Attendance,2,"Incurring more than six (6) absences with notice in two (2) months.*ONLY phone calls and excuse letters are considered acceptable notice. Notice should be received before 10 AM for morning and whole day absences, and before 1 PM for afternoon absences.",A
+Attendance,3,Being absent without notice. (An absence without notice of ½ day or 1 day is considered one (1) violation),A
+Attendance,4,Not wearing company ID/complete company-issued uniform. (They will not be allowed entry within company premises),A
+Attendance,5,Not wearing complete/proper uniform in the work area and within company premises.,A
+Cleanliness,1,Littering trash/garbage or spitting within company premises.,A
+Cleanliness,2,Urinating or defecating outside restrooms within company premises.,C
+Cleanliness,3,Bringing or eating food inside the working area.,B
+Cleanliness,4,SMOKING within company premises outside the designated smoking area.,D
+Cleanliness,5,SMOKING or not wearing proper uniform during deliveries.,B
+Cleanliness,6,Wearing of hairnet/mask/gloves in the canteen or toilet or outside work area or not putting the company uniform/hairnet/mask/gloves/shoes/socks or any part of the company uniform in the proper place after work or during break time.,A
+Cleanliness,7,"Not having the proper haircut/beard/mustache/fingernail",A
+Cleanliness,8,"Wearing of watches, jewelry or accessories in production/warehouse areas.",A
+Cleanliness,8a,"*If damage, loss or delay in production is caused or incurred. (The erring employee shall further pay or indemnify the Company for the damages or loss it incurred)",D
+Performance,1,Refusal to accept a task/shift/work assignment; delaying the performance of a task/shift/work assignment; refusal to cooperate with fellow workers resulting in delay/loss of time in production and deliveries.,C
+Performance,2,Sleeping or not being in the work area during working hours.,C
+Performance,3,INTENTIONAL slowdown/stoppage of work or leaving work unfinished or leaving before bell time.,C
+Performance,4,"FREQUENT refusal to render overtime, holiday or rest day work, where appropriate as determined solely by the Management.",A
+Performance,5,UNAUTHORIZED changing of work assigned.,C
+Performance,6,UNAUTHORIZED swapping of work assigned with co-workers.,C
+Performance,6a,*If damage or loss is caused or incurred. (The erring employee shall further pay or indemnify the Company for the damages or loss it incurred),D
+Performance,7,Refusal to work harmoniously with co-workers leading to complaints and loss of time and productivity ,B
+Performance,8,Lapses in work procedure.,A
+Performance,8a,*If damage or loss is caused or incurred. (The erring employee shall further pay or indemnify the Company for the damages or loss it incurred),C
+Misconduct,1,Gambling in any form within company premises.,D
+Misconduct,2,Fighting or provoking a fight or threatening or intimidating or verbally arguing with a co-worker within company premises.,C
+Misconduct,2a,*If the above acts resulted in serious bodily harm.,E
+Misconduct,3,BRINGING gadgets inside the working area.,B
+Misconduct,4,Working/driving under the influence of liquor or illegal drugs.,D
+Misconduct,5,"Possessing or selling of liquor or other illegal/prohibited drugs/fire arms, deadly weapons or sharp objects inside company premises.",E
+Misconduct,6,Showing/viewing of pornographic materials or committing acts of lasciviousness or any indecent behavior within company premises.,C
+Misconduct,7,"Stealing company property or other belongings of a co-worker.*Erring employee shall be liable for the value of the thing stolen.",D
+Misconduct,8,"Causing wilful damage or vandalism to company property or other belongings and materials (including tires of vehicles, bikes and motorcycles) of a co-worker where the value of the property is less than P10,000. Employee shall be liable for damages.",C
+Misconduct,8a,"Causing wilful damage or vandalism to company property or other belongings and materials (including tires of vehicles, bikes and motorcycles) of a co-worker where the value of the property is more than P10,000. Employee shall be liable for damages.",D
+Misconduct,9,"Refusal to sign/accept the notice of disciplinary action, notice to explain sheet, memorandum, reminder, acknowledgment or any other notice given by the Company.",B
+Misconduct,10,"Showing disrespect or insulting company visitors, co-workers, supervisors, office staff, company guards and other company employees.",B
+Misconduct,11,ENTERING restricted/unauthorized areas at anytime.,C
+Misconduct,12,Bringing of any personal belongings in work area.,A
+Misconduct,13,UNAUTHORIZED driving/ use of company vehicles inside/ outside company premises.,C
+Misconduct,13a,*If damage or loss is caused or incurred. (The erring employee shall further pay or indemnify the Company for the damages or loss it incurred),D
+Misconduct,14,UNAUTHORIZED operation / use of company tools/machines/equipment and other similar items.,C
+Misconduct,14a,*If damage or loss is caused or incurred. (The erring employee shall further pay or indemnify the Company for the damages or loss it incurred),D
+Misconduct,15,Knowing or having knowledge that a co-worker committed acts in Misconduct no.13 & no.14 and not reporting to his superior or any other responsible official of the Company.,C
+Misconduct,15a,*If damage or loss is caused or incurred. (The erring employee shall further pay or indemnify the Company for the damages or loss it incurred),D
+Warning,1,Verbal Warning.,E

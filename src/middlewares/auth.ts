@@ -30,14 +30,19 @@ export const authUser =
       const userToken = verify(token, "secret") as User;
 
       if (role === userToken.role) {
-        getUserByUsername(mongoClient, userToken.username).then((user) => {
-          if (user) {
-            req.user = user;
-            next();
-          } else {
-            res.sendStatus(StatusCodes.UNAUTHORIZED);
-          }
-        });
+        getUserByUsername(mongoClient, userToken.username)
+          .then((user) => {
+            if (user) {
+              req.user = user;
+              next();
+            } else {
+              res.sendStatus(StatusCodes.UNAUTHORIZED);
+            }
+          })
+          .catch((e) => {
+            console.error(e);
+            res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+          });
       } else {
         res.sendStatus(StatusCodes.UNAUTHORIZED);
       }

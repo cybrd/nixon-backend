@@ -4,7 +4,7 @@ import { Employee } from "../models/employee";
 
 export const getEmployees = (
   client: MongoClient,
-  options = { limit: 25, skip: 1 }
+  options = { limit: 25, skip: 0 }
 ) => {
   console.log("getEmployees");
 

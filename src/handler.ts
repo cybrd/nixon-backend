@@ -7,6 +7,7 @@ import { employeeController } from "./controllers/employee";
 import { handbookController } from "./controllers/handbook";
 import { testController } from "./controllers/test";
 import { userController } from "./controllers/user";
+import { violationController } from "./controllers/violation";
 
 export const app = express();
 
@@ -16,8 +17,9 @@ app.use(json());
 
 app.use("/employee", employeeController);
 app.use("/handbook", handbookController);
-app.use("/user", userController);
 app.use("/test", testController);
+app.use("/user", userController);
+app.use("/violation", violationController);
 
 app.use((req, res) =>
   res.status(StatusCodes.NOT_FOUND).json({

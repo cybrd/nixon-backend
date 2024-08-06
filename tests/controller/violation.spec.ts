@@ -4,7 +4,7 @@ import request from "supertest";
 
 import { app } from "../../src/handler";
 
-describe("controller handbook", () => {
+describe.only("controller violation", () => {
   let token = "";
 
   before((done) => {
@@ -23,16 +23,16 @@ describe("controller handbook", () => {
       .catch(done);
   });
 
-  describe("route /handbook", () => {
+  describe("route /violation", () => {
     it("login fail", async () => {
-      const result = await request(app).get("/handbook").send();
+      const result = await request(app).get("/violation").send();
 
       assert.equal(result.statusCode, StatusCodes.UNAUTHORIZED);
     });
 
     it("works 200", async () => {
       const result = await request(app)
-        .get("/handbook")
+        .get("/violation")
         .auth(token, { type: "bearer" })
         .send();
 

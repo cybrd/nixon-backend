@@ -1,5 +1,5 @@
 export type Handbook = {
-  group: string;
+  under: string;
   violation: string;
   description: string;
   penalty: string;

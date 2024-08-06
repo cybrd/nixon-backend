@@ -26,18 +26,22 @@ export const authUser =
 
     const [_, token] = req.headers.authorization.split(" ");
 
-    const userToken = verify(token, "secret") as User;
+    try {
+      const userToken = verify(token, "secret") as User;
 
-    if (role === userToken.role) {
-      getUserByUsername(mongoClient, userToken.username).then((user) => {
-        if (user) {
-          req.user = user;
-          next();
-        } else {
-          res.sendStatus(StatusCodes.UNAUTHORIZED);
-        }
-      });
-    } else {
+      if (role === userToken.role) {
+        getUserByUsername(mongoClient, userToken.username).then((user) => {
+          if (user) {
+            req.user = user;
+            next();
+          } else {
+            res.sendStatus(StatusCodes.UNAUTHORIZED);
+          }
+        });
+      } else {
+        res.sendStatus(StatusCodes.UNAUTHORIZED);
+      }
+    } catch {
       res.sendStatus(StatusCodes.UNAUTHORIZED);
     }
   };

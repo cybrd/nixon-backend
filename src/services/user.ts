@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
+
 import { User } from "../models/user";
 
 export const getUserByUsernameAndPassword = (

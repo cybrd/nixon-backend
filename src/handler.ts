@@ -3,15 +3,17 @@ import { StatusCodes } from "http-status-codes";
 import cors from "cors";
 import serverless from "serverless-http";
 
+import { employeeController } from "./controllers/employee";
 import { testController } from "./controllers/test";
 import { userController } from "./controllers/user";
 
-const app = express();
+export const app = express();
 
 app.use(cors());
 app.use(urlencoded({ extended: false }));
 app.use(json());
 
+app.use("/employee", employeeController);
 app.use("/user", userController);
 app.use("/test", testController);
 

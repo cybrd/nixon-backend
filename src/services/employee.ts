@@ -16,3 +16,11 @@ export const getEmployees = (
     .limit(options.limit)
     .toArray();
 };
+
+export const getEmployeesCount = (client: MongoClient) => {
+  console.log("getEmployees");
+
+  const collection = client.db("nixon").collection<Employee>("employee");
+
+  return collection.countDocuments({});
+};

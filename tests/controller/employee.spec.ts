@@ -4,7 +4,7 @@ import request from "supertest";
 
 import { app } from "../../src/handler";
 
-describe("controller employee", () => {
+describe.only("controller employee", () => {
   let token = "";
 
   before((done) => {

@@ -3,16 +3,22 @@ import { StatusCodes } from "http-status-codes";
 
 import { mongoClient } from "../connections";
 
+import { getEmployees, getEmployeesCount } from "../services/employee";
 import { authUser } from "../middlewares/auth";
-import { getEmployees } from "../services/employee";
 
 export const employeeController = Router();
 
 employeeController.get("/", authUser("supervisor"), (req, res) => {
   (async () => {
-    const result = await getEmployees(mongoClient);
+    const [data, counts] = await Promise.all([
+      getEmployees(mongoClient),
+      getEmployeesCount(mongoClient),
+    ]);
 
-    res.send(result);
+    res.send({
+      counts,
+      data,
+    });
   })().catch((err) => {
     console.trace(err);
     res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);

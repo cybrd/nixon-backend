@@ -4,7 +4,7 @@ import request from "supertest";
 
 import { app } from "../../src/handler";
 
-describe.only("controller violation", () => {
+describe("controller violation", () => {
   let token = "";
 
   before((done) => {

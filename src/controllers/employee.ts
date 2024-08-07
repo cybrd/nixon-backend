@@ -12,9 +12,7 @@ export const employeeController = Router();
 
 employeeController.get("/", authUser("supervisor"), (req, res) => {
   (async () => {
-    const { page, department } = <{ page: string; department: string }>(
-      req.query
-    );
+    const { page, ...filters } = req.query as { [k: string]: string };
 
     let pageOption = 0;
     if (page) {
@@ -25,9 +23,9 @@ employeeController.get("/", authUser("supervisor"), (req, res) => {
       getEmployees(
         mongoClient,
         { limit: 25, page: pageOption },
-        objectRemoveEmpty({ department })
+        objectRemoveEmpty(filters)
       ),
-      getEmployeesCount(mongoClient, { department }),
+      getEmployeesCount(mongoClient, objectRemoveEmpty(filters)),
     ]);
 
     res.send({

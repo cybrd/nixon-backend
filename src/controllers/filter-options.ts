@@ -15,20 +15,17 @@ filterOptionsController.get("/", authUser("supervisor"), (req, res) => {
       page: 0,
     });
 
-    const filterOptionsSet = {
-      department: new Set<string>(),
-      fingerPrintId: new Set<string>(),
+    const filterOptions: Record<string, Record<string, string>> = {
+      department: {},
+      fingerPrintId: {},
     };
 
     employees.forEach((employee) => {
-      filterOptionsSet.department.add(employee.department);
-      filterOptionsSet.fingerPrintId.add(employee.fingerPrintId);
+      filterOptions.department[employee.department] = employee.department;
+      filterOptions.fingerPrintId[
+        employee.fingerPrintId
+      ] = `${employee.fingerPrintId} - ${employee.name}`;
     });
-
-    const filterOptions = {
-      department: Array.from(filterOptionsSet.department),
-      fingerPrintId: Array.from(filterOptionsSet.fingerPrintId),
-    };
 
     res.send(filterOptions);
   })().catch((err) => {

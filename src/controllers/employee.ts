@@ -11,7 +11,7 @@ export const employeeController = Router();
 
 employeeController.get("/", authUser("supervisor"), (req, res) => {
   (async () => {
-    const { page } = req.params;
+    const { page } = req.query;
     let pageOption = 0;
     if (page) {
       pageOption = Number(page) - ONE;

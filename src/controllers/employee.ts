@@ -11,14 +11,19 @@ export const employeeController = Router();
 
 employeeController.get("/", authUser("supervisor"), (req, res) => {
   (async () => {
-    const { page } = req.query;
+    const { page, department } = req.query;
+
     let pageOption = 0;
     if (page) {
       pageOption = Number(page) - ONE;
     }
 
     const [data, counts] = await Promise.all([
-      getEmployees(mongoClient, { limit: 25, page: pageOption }),
+      getEmployees(
+        mongoClient,
+        { limit: 25, page: pageOption },
+        { department }
+      ),
       getEmployeesCount(mongoClient),
     ]);
 

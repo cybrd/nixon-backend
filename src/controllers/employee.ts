@@ -13,6 +13,7 @@ export const employeeController = Router();
 employeeController.get("/", authUser("supervisor"), (req, res) => {
   (async () => {
     const { page, ...filters } = req.query as { [k: string]: string };
+    const cleanFilter = objectRemoveEmpty(filters);
 
     let pageOption = 0;
     if (page) {
@@ -20,15 +21,12 @@ employeeController.get("/", authUser("supervisor"), (req, res) => {
     }
 
     const [data, counts] = await Promise.all([
-      getEmployees(
-        mongoClient,
-        { limit: 25, page: pageOption },
-        objectRemoveEmpty(filters)
-      ),
-      getEmployeesCount(mongoClient, objectRemoveEmpty(filters)),
+      getEmployees(mongoClient, { limit: 25, page: pageOption }, cleanFilter),
+      getEmployeesCount(mongoClient, cleanFilter),
     ]);
 
     res.send({
+      cleanFilter,
       counts,
       data,
     });

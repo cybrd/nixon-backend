@@ -7,7 +7,7 @@ export const getEmployees = (
   options = { limit: 25, page: 0 },
   filter = {}
 ) => {
-  console.log("getEmployees");
+  console.log("getEmployees", filter);
 
   const collection = client.db("nixon").collection<Employee>("employee");
 
@@ -19,7 +19,7 @@ export const getEmployees = (
 };
 
 export const getEmployeesCount = (client: MongoClient, filter = {}) => {
-  console.log("getEmployeesCount");
+  console.log("getEmployeesCount", filter);
 
   const collection = client.db("nixon").collection<Employee>("employee");
 

@@ -18,10 +18,10 @@ export const getEmployees = (
     .toArray();
 };
 
-export const getEmployeesCount = (client: MongoClient) => {
+export const getEmployeesCount = (client: MongoClient, filter = {}) => {
   console.log("getEmployees");
 
   const collection = client.db("nixon").collection<Employee>("employee");
 
-  return collection.countDocuments({});
+  return collection.countDocuments(filter);
 };

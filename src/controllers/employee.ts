@@ -24,7 +24,7 @@ employeeController.get("/", authUser("supervisor"), (req, res) => {
         { limit: 25, page: pageOption },
         { department }
       ),
-      getEmployeesCount(mongoClient),
+      getEmployeesCount(mongoClient, { department }),
     ]);
 
     res.send({

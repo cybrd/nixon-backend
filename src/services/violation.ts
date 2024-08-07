@@ -18,7 +18,7 @@ export const getViolation = (
 };
 
 export const getViolationCount = (client: MongoClient) => {
-  console.log("getViolation");
+  console.log("getViolationCount");
 
   const collection = client.db("nixon").collection<Violation>("violation");
 

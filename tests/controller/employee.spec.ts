@@ -4,7 +4,7 @@ import request from "supertest";
 
 import { app } from "../../src/handler";
 
-describe("controller employee", () => {
+describe.only("controller employee", () => {
   let token = "";
 
   before((done) => {
@@ -25,7 +25,9 @@ describe("controller employee", () => {
 
   describe("route /employee", () => {
     it("login fail", async () => {
-      const result = await request(app).get("/employee").send();
+      const result = await request(app)
+        .get("/employee?department=&page=")
+        .send();
 
       assert.equal(result.statusCode, StatusCodes.UNAUTHORIZED);
     });

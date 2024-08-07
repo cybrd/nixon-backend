@@ -4,7 +4,7 @@ import request from "supertest";
 
 import { app } from "../../src/handler";
 
-describe.only("controller filterOptions", () => {
+describe("controller filterOptions", () => {
   let token = "";
 
   before((done) => {

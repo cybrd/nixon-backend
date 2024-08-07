@@ -3,8 +3,8 @@ export const objectRemoveEmpty = (oldObj: Record<string, string>) => {
 
   for (const prop in oldObj) {
     if (
-      typeof oldObj[prop] !== "undefined" ||
-      oldObj[prop] !== null ||
+      typeof oldObj[prop] !== "undefined" &&
+      oldObj[prop] !== null &&
       oldObj[prop] !== ""
     ) {
       newObj[prop] = oldObj[prop];

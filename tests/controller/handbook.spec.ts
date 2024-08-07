@@ -16,7 +16,6 @@ describe("controller handbook", () => {
       })
       .then((data) => {
         ({ token } = data.body as { token: string });
-        console.log(data.body);
 
         done();
       })

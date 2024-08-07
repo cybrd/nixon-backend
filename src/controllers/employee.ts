@@ -26,7 +26,6 @@ employeeController.get("/", authUser("supervisor"), (req, res) => {
     ]);
 
     res.send({
-      cleanFilter,
       counts,
       data,
     });

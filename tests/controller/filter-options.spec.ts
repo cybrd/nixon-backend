@@ -16,7 +16,6 @@ describe("controller filterOptions", () => {
       })
       .then((data) => {
         ({ token } = data.body as { token: string });
-        console.log(data.body);
 
         done();
       })

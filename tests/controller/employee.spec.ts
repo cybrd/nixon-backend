@@ -16,7 +16,6 @@ describe.only("controller employee", () => {
       })
       .then((data) => {
         ({ token } = data.body as { token: string });
-        console.log(data.body);
 
         done();
       })
@@ -25,9 +24,7 @@ describe.only("controller employee", () => {
 
   describe("route /employee", () => {
     it("login fail", async () => {
-      const result = await request(app)
-        .get("/employee?department=&page=")
-        .send();
+      const result = await request(app).get("/employee").send();
 
       assert.equal(result.statusCode, StatusCodes.UNAUTHORIZED);
     });
@@ -38,6 +35,7 @@ describe.only("controller employee", () => {
         .auth(token, { type: "bearer" })
         .send();
 
+      console.log(result.body);
       assert.equal(result.statusCode, StatusCodes.OK);
     });
   });

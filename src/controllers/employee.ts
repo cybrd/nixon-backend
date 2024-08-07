@@ -6,12 +6,15 @@ import { mongoClient } from "../connections";
 
 import { getEmployees, getEmployeesCount } from "../services/employee";
 import { authUser } from "../middlewares/auth";
+import { objectRemoveEmpty } from "../helper/object-remove-empty";
 
 export const employeeController = Router();
 
 employeeController.get("/", authUser("supervisor"), (req, res) => {
   (async () => {
-    const { page, department } = req.query;
+    const { page, department } = <{ page: string; department: string }>(
+      req.query
+    );
 
     let pageOption = 0;
     if (page) {
@@ -22,7 +25,7 @@ employeeController.get("/", authUser("supervisor"), (req, res) => {
       getEmployees(
         mongoClient,
         { limit: 25, page: pageOption },
-        { department }
+        objectRemoveEmpty({ department })
       ),
       getEmployeesCount(mongoClient, { department }),
     ]);

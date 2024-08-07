@@ -4,6 +4,7 @@ import cors from "cors";
 import serverless from "serverless-http";
 
 import { employeeController } from "./controllers/employee";
+import { filterOptionsController } from "./controllers/filter-options";
 import { handbookController } from "./controllers/handbook";
 import { testController } from "./controllers/test";
 import { userController } from "./controllers/user";
@@ -16,6 +17,7 @@ app.use(urlencoded({ extended: false }));
 app.use(json());
 
 app.use("/employee", employeeController);
+app.use("/filterOptions", filterOptionsController);
 app.use("/handbook", handbookController);
 app.use("/test", testController);
 app.use("/user", userController);

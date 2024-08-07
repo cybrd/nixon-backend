@@ -4,7 +4,7 @@ import { mongoClient } from "../../src/connections";
 
 import { getViolation, getViolationCount } from "../../src/services/violation";
 
-describe.only("service violation", () => {
+describe("service violation", () => {
   describe("getViolation", () => {
     it("works success", async () => {
       const result = await getViolation(mongoClient);

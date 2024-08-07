@@ -17,14 +17,17 @@ filterOptionsController.get("/", authUser("supervisor"), (req, res) => {
 
     const filterOptionsSet = {
       department: new Set<string>(),
+      fingerPrintId: new Set<string>(),
     };
 
     employees.forEach((employee) => {
       filterOptionsSet.department.add(employee.department);
+      filterOptionsSet.fingerPrintId.add(employee.fingerPrintId);
     });
 
     const filterOptions = {
       department: Array.from(filterOptionsSet.department),
+      fingerPrintId: Array.from(filterOptionsSet.fingerPrintId),
     };
 
     res.send(filterOptions);

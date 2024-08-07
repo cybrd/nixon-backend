@@ -15,13 +15,17 @@ filterOptionsController.get("/", authUser("supervisor"), (req, res) => {
       page: 0,
     });
 
-    const filterOptions = {
+    const filterOptionsSet = {
       department: new Set<string>(),
     };
 
     employees.forEach((employee) => {
-      filterOptions.department.add(employee.department);
+      filterOptionsSet.department.add(employee.department);
     });
+
+    const filterOptions = {
+      department: Array.from(filterOptionsSet.department),
+    };
 
     res.send(filterOptions);
   })().catch((err) => {

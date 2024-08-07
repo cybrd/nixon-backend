@@ -12,7 +12,7 @@ export const employeeController = Router();
 
 employeeController.get("/", authUser("supervisor"), (req, res) => {
   (async () => {
-    const { page, ...filters } = req.query as { [k: string]: string };
+    const { page, ...filters } = req.query as Record<string, string>;
     const cleanFilter = objectRemoveEmpty(filters);
 
     let pageOption = 0;

@@ -4,7 +4,11 @@ import { StatusCodes } from "http-status-codes";
 import { ONE } from "../constants";
 import { mongoClient } from "../connections";
 
-import { getViolation, getViolationCount } from "../services/violation";
+import {
+  createViolation,
+  getViolation,
+  getViolationCount,
+} from "../services/violation";
 import { authUser } from "../middlewares/auth";
 import { objectRemoveEmpty } from "../helper/object-remove-empty";
 
@@ -47,6 +51,17 @@ violationController.get("/", authUser("supervisor"), (req, res) => {
       counts,
       data,
     });
+  })().catch((err) => {
+    console.trace(err);
+    res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+  });
+});
+
+violationController.post("/create", authUser("supervisor"), (req, res) => {
+  (async () => {
+    const result = await createViolation(mongoClient, req.body);
+
+    res.send(result);
   })().catch((err) => {
     console.trace(err);
     res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);

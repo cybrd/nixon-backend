@@ -4,7 +4,7 @@ import { mongoClient } from "../../src/connections";
 
 import { getEmployees, getEmployeesCount } from "../../src/services/employee";
 
-describe.only("service employee", () => {
+describe("service employee", () => {
   describe("getEmployees", () => {
     it("works success", async () => {
       const result = await getEmployees(mongoClient);

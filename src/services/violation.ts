@@ -4,7 +4,7 @@ import { Violation } from "../models/violation";
 
 export const getViolation = (
   client: MongoClient,
-  options = { limit: 25, skip: 0 }
+  options = { limit: 25, page: 0 }
 ) => {
   console.log("getViolation");
 
@@ -12,9 +12,17 @@ export const getViolation = (
 
   return collection
     .find({})
-    .skip(options.skip * options.limit)
+    .skip(options.page * options.limit)
     .limit(options.limit)
     .toArray();
+};
+
+export const getViolationCount = (client: MongoClient) => {
+  console.log("getViolation");
+
+  const collection = client.db("nixon").collection<Violation>("violation");
+
+  return collection.countDocuments({});
 };
 
 export const createViolation = (client: MongoClient, data: Violation) => {

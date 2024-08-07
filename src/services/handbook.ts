@@ -2,19 +2,12 @@ import { MongoClient } from "mongodb";
 
 import { Handbook } from "../models/handbook";
 
-export const getHandbook = (
-  client: MongoClient,
-  options = { limit: 25, skip: 0 }
-) => {
+export const getHandbook = (client: MongoClient) => {
   console.log("getHandbook");
 
   const collection = client.db("nixon").collection<Handbook>("handbook");
 
-  return collection
-    .find({})
-    .skip(options.skip * options.limit)
-    .limit(options.limit)
-    .toArray();
+  return collection.find({}).toArray();
 };
 
 export const createHandbook = (client: MongoClient, data: Handbook) => {

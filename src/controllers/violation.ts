@@ -59,6 +59,12 @@ violationController.get("/", authUser("supervisor"), (req, res) => {
   });
 });
 
+const getEmployeeName = async (fingerPrintId: string) => {
+  const employee = await getEmployeeByFingerPrintId(mongoClient, fingerPrintId);
+
+  return employee?.name || "";
+};
+
 violationController.post("/create", authUser("supervisor"), (req, res) => {
   (async () => {
     const body = req.body as Violation;
@@ -84,14 +90,11 @@ violationController.post("/create", authUser("supervisor"), (req, res) => {
     }
 
     if (body.deptHead) {
-      const employee = await getEmployeeByFingerPrintId(
-        mongoClient,
-        body.deptHead
-      );
+      body.deptHead = await getEmployeeName(body.deptHead);
+    }
 
-      if (employee) {
-        body.deptHead = employee.name;
-      }
+    if (body.reportedBy) {
+      body.reportedBy = await getEmployeeName(body.reportedBy);
     }
 
     const result = await createViolation(mongoClient, body);

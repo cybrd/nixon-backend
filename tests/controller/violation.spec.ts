@@ -38,4 +38,23 @@ describe("controller violation", () => {
       assert.equal(result.statusCode, StatusCodes.OK);
     });
   });
+
+  describe.only("route DELETE /violation", () => {
+    it("login fail", async () => {
+      const result = await request(app)
+        .delete("/violation/66b75814ea57098b23765820")
+        .send();
+
+      assert.equal(result.statusCode, StatusCodes.UNAUTHORIZED);
+    });
+
+    it("works 200", async () => {
+      const result = await request(app)
+        .delete("/violation/66b75814ea57098b23765820")
+        .auth(token, { type: "bearer" })
+        .send();
+
+      assert.equal(result.statusCode, StatusCodes.OK);
+    });
+  });
 });

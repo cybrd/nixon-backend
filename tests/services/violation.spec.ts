@@ -25,7 +25,7 @@ describe("service violation", () => {
     });
   });
 
-  describe.only("deleteViolation", () => {
+  describe("deleteViolation", () => {
     it("works", async () => {
       const result = await deleteViolation(
         mongoClient,

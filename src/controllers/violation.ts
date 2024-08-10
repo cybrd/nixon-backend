@@ -9,6 +9,7 @@ import {
   getViolation,
   getViolationCount,
 } from "../services/violation";
+import { Violation } from "../models/violation";
 import { authUser } from "../middlewares/auth";
 import { objectRemoveEmpty } from "../helper/object-remove-empty";
 
@@ -59,7 +60,16 @@ violationController.get("/", authUser("supervisor"), (req, res) => {
 
 violationController.post("/create", authUser("supervisor"), (req, res) => {
   (async () => {
-    const result = await createViolation(mongoClient, req.body);
+    const body = req.body as Violation;
+
+    if (body.under?.includes("-")) {
+      const [under, violation] = body.under.split("-");
+
+      body.under = under;
+      body.violation = violation;
+    }
+
+    const result = await createViolation(mongoClient, body);
 
     res.send(result);
   })().catch((err) => {

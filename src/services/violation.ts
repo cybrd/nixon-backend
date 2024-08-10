@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 
 import { Violation } from "../models/violation";
 
@@ -32,4 +32,12 @@ export const createViolation = (client: MongoClient, data: Violation) => {
   const collection = client.db("nixon").collection<Violation>("violation");
 
   return collection.insertOne(data);
+};
+
+export const deleteViolation = (client: MongoClient, id: string) => {
+  console.log("deleteViolation");
+
+  const collection = client.db("nixon").collection<Violation>("violation");
+
+  return collection.deleteOne({ _id: new ObjectId(id) });
 };

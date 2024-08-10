@@ -6,6 +6,7 @@ import { mongoClient } from "../connections";
 
 import {
   createViolation,
+  deleteViolation,
   getViolation,
   getViolationCount,
 } from "../services/violation";
@@ -98,6 +99,17 @@ violationController.post("/create", authUser("supervisor"), (req, res) => {
     }
 
     const result = await createViolation(mongoClient, body);
+
+    res.send(result);
+  })().catch((err) => {
+    console.trace(err);
+    res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+  });
+});
+
+violationController.delete("/:id", authUser("supervisor"), (req, res) => {
+  (async () => {
+    const result = await deleteViolation(mongoClient, req.params.id);
 
     res.send(result);
   })().catch((err) => {

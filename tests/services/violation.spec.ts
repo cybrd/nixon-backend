@@ -2,11 +2,15 @@ import assert from "assert";
 
 import { mongoClient } from "../../src/connections";
 
-import { getViolation, getViolationCount } from "../../src/services/violation";
+import {
+  deleteViolation,
+  getViolation,
+  getViolationCount,
+} from "../../src/services/violation";
 
 describe("service violation", () => {
   describe("getViolation", () => {
-    it("works success", async () => {
+    it("works", async () => {
       const result = await getViolation(mongoClient);
 
       assert.ok(result);
@@ -14,8 +18,19 @@ describe("service violation", () => {
   });
 
   describe("getViolationCount", () => {
-    it("works success", async () => {
+    it("works", async () => {
       const result = await getViolationCount(mongoClient);
+
+      assert.ok(result);
+    });
+  });
+
+  describe.only("deleteViolation", () => {
+    it("works", async () => {
+      const result = await deleteViolation(
+        mongoClient,
+        "66b75814ea57098b23765820"
+      );
 
       assert.ok(result);
     });

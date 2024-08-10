@@ -11,6 +11,7 @@ import {
 } from "../services/violation";
 import { Violation } from "../models/violation";
 import { authUser } from "../middlewares/auth";
+import { getEmployeeByFingerPrintId } from "../services/employee";
 import { objectRemoveEmpty } from "../helper/object-remove-empty";
 
 export const violationController = Router();
@@ -67,6 +68,30 @@ violationController.post("/create", authUser("supervisor"), (req, res) => {
 
       body.under = under;
       body.violation = violation;
+    }
+
+    if (body.employeeNumber) {
+      const employee = await getEmployeeByFingerPrintId(
+        mongoClient,
+        body.employeeNumber
+      );
+
+      if (employee) {
+        body.employeeName = employee.name;
+        body.position = employee.position;
+        body.department = employee.department;
+      }
+    }
+
+    if (body.deptHead) {
+      const employee = await getEmployeeByFingerPrintId(
+        mongoClient,
+        body.deptHead
+      );
+
+      if (employee) {
+        body.deptHead = employee.name;
+      }
     }
 
     const result = await createViolation(mongoClient, body);

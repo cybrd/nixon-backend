@@ -18,6 +18,17 @@ export const getEmployees = (
     .toArray();
 };
 
+export const getEmployeeByFingerPrintId = (
+  client: MongoClient,
+  fingerPrintId: string
+) => {
+  console.log("getEmployeeByFingerPrintId", fingerPrintId);
+
+  const collection = client.db("nixon").collection<Employee>("employee");
+
+  return collection.findOne({ fingerPrintId });
+};
+
 export const getEmployeesCount = (client: MongoClient, filter = {}) => {
   console.log("getEmployeesCount", filter);
 

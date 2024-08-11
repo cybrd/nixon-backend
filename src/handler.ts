@@ -14,7 +14,7 @@ export const app = express();
 
 app.use(cors());
 app.use(urlencoded({ extended: false }));
-app.use(json());
+app.use(json({ limit: "50mb" }));
 
 app.use("/employee", employeeController);
 app.use("/filterOptions", filterOptionsController);
@@ -29,4 +29,4 @@ app.use((req, res) =>
   })
 );
 
-export const index = serverless(app, { binary: ["*/*"] });
+export const index = serverless(app);

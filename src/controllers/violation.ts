@@ -126,6 +126,9 @@ violationController.post(
   authUser("supervisor"),
   multer().single("file"),
   (req, res) => {
+    console.log(req.files);
+    console.log(req.file);
+
     if (req.file) {
       parse(req.file as unknown as string, { columns: true }, (err, rows) => {
         createManyViolation(mongoClient, rows)

@@ -10,8 +10,7 @@ useDotenv: true
 custom:
   apigwBinary:
     types:
-      - "image/jpeg"
-      - "text/csv"
+      - "*/*"
 
 provider:
   name: aws

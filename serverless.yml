@@ -3,8 +3,15 @@ service: aws-node-express-api
 plugins:
   - serverless-esbuild
   - serverless-dotenv-plugin
+  - serverless-apigw-binary
 
 useDotenv: true
+
+custom:
+  apigwBinary:
+    types:
+      - "image/jpeg"
+      - "text/csv"
 
 provider:
   name: aws

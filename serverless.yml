@@ -3,7 +3,6 @@ service: aws-node-express-api
 plugins:
   - serverless-esbuild
   - serverless-dotenv-plugin
-  - serverless-apigw-binary
 
 useDotenv: true
 

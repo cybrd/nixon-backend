@@ -41,3 +41,11 @@ export const deleteViolation = (client: MongoClient, id: string) => {
 
   return collection.deleteOne({ _id: new ObjectId(id) });
 };
+
+export const createManyViolation = (client: MongoClient, data: Violation[]) => {
+  console.log("createManyViolation");
+
+  const collection = client.db("nixon").collection<Violation>("violation");
+
+  return collection.insertMany(data);
+};

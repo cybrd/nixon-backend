@@ -1,10 +1,13 @@
 import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
+import multer from "multer";
+import { parse } from "csv-parse";
 
 import { ONE } from "../constants";
 import { mongoClient } from "../connections";
 
 import {
+  createManyViolation,
   createViolation,
   deleteViolation,
   getViolation,
@@ -117,3 +120,20 @@ violationController.delete("/:id", authUser("supervisor"), (req, res) => {
     res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
   });
 });
+
+violationController.post(
+  "/import",
+  authUser("supervisor"),
+  multer().single("file"),
+  (req, res) => {
+    if (req.file) {
+      parse(req.file as unknown as string, { columns: true }, (err, rows) => {
+        createManyViolation(mongoClient, rows)
+          .then(() => res.send("ok"))
+          .catch(console.error);
+      });
+    } else {
+      res.send("ok");
+    }
+  }
+);

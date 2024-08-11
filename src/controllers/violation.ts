@@ -122,7 +122,7 @@ violationController.delete("/:id", authUser("supervisor"), (req, res) => {
 });
 
 violationController.post(
-  "/import",
+  "/upload",
   authUser("supervisor"),
   multer().single("file"),
   (req, res) => {
@@ -133,7 +133,7 @@ violationController.post(
           .catch(console.error);
       });
     } else {
-      res.send("ok");
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("no file found");
     }
   }
 );

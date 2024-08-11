@@ -120,45 +120,40 @@ violationController.delete("/:id", authUser("supervisor"), (req, res) => {
 });
 
 violationController.post("/upload", authUser("supervisor"), (req, res) => {
-  (async () => {
-    const keys = [
-      "controlNumber",
-      "employeeNumber",
-      "employeeName",
-      "department",
-      "position",
-      "deptHead",
-      "dateOfIncident",
-      "timeOfIncident",
-      "reportedBy",
-      "incidentDescription",
-      "under",
-      "violation",
-      "description",
-      "penalty",
-      "numberOfTimes",
-    ] as const;
+  const keys = [
+    "controlNumber",
+    "employeeNumber",
+    "employeeName",
+    "department",
+    "position",
+    "deptHead",
+    "dateOfIncident",
+    "timeOfIncident",
+    "reportedBy",
+    "incidentDescription",
+    "under",
+    "violation",
+    "description",
+    "penalty",
+    "numberOfTimes",
+  ] as const;
 
-    const body = req.body as string[][];
+  const body = req.body as string[][];
 
-    const violations = body.map((record) => {
-      const violation: Partial<Violation> = {};
+  const violations = body.map((record) => {
+    const violation: Partial<Violation> = {};
 
-      record.forEach((x, i) => {
-        violation[keys[i]] = x;
-      });
-
-      return violation;
+    record.forEach((x, i) => {
+      violation[keys[i]] = x;
     });
 
-    const result = await createManyViolation(
-      mongoClient,
-      violations as Violation[]
-    );
-
-    res.send(result);
-  })().catch((err) => {
-    console.trace(err);
-    res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+    return violation;
   });
+
+  createManyViolation(mongoClient, violations as Violation[])
+    .then(res.send)
+    .catch((err) => {
+      console.error(err);
+      res.send(err);
+    });
 });

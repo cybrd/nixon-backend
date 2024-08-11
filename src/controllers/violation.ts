@@ -119,5 +119,5 @@ violationController.delete("/:id", authUser("supervisor"), (req, res) => {
 });
 
 violationController.post("/upload", authUser("supervisor"), (req, res) => {
-  res.send(req.body.length);
+  res.send(String(req.body.length));
 });

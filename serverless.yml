@@ -12,7 +12,7 @@ provider:
   region: ap-southeast-1
   apiGateway:
     binaryMediaTypes:
-      - "text/csv"
+      - "*/*"
 
 functions:
   express:

@@ -5,6 +5,7 @@ import { ONE } from "../constants";
 import { mongoClient } from "../connections";
 
 import {
+  createManyViolation,
   createViolation,
   deleteViolation,
   getViolation,
@@ -119,5 +120,45 @@ violationController.delete("/:id", authUser("supervisor"), (req, res) => {
 });
 
 violationController.post("/upload", authUser("supervisor"), (req, res) => {
-  res.send(String(req.body.length));
+  (async () => {
+    const keys = [
+      "controlNumber",
+      "employeeNumber",
+      "employeeName",
+      "department",
+      "position",
+      "deptHead",
+      "dateOfIncident",
+      "timeOfIncident",
+      "reportedBy",
+      "incidentDescription",
+      "under",
+      "violation",
+      "description",
+      "penalty",
+      "numberOfTimes",
+    ] as const;
+
+    const body = req.body as string[][];
+
+    const violations = body.map((record) => {
+      const violation: Partial<Violation> = {};
+
+      record.forEach((x, i) => {
+        violation[keys[i]] = x;
+      });
+
+      return violation;
+    });
+
+    const result = await createManyViolation(
+      mongoClient,
+      violations as Violation[]
+    );
+
+    res.send(result);
+  })().catch((err) => {
+    console.trace(err);
+    res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+  });
 });

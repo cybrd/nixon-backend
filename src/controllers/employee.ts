@@ -25,7 +25,7 @@ employeeController.get("/", authUser("supervisor"), (req, res) => {
       getEmployeesCount(mongoClient, cleanFilter),
     ]);
 
-    res.send({
+    res.json({
       counts,
       data,
     });

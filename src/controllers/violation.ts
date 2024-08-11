@@ -51,7 +51,7 @@ violationController.get("/", authUser("supervisor"), (req, res) => {
       getViolationCount(mongoClient, cleanFilter),
     ]);
 
-    res.send({
+    res.json({
       counts,
       data,
     });
@@ -101,7 +101,7 @@ violationController.post("/create", authUser("supervisor"), (req, res) => {
 
     const result = await createViolation(mongoClient, body);
 
-    res.send(result);
+    res.json(result);
   })().catch((err) => {
     console.trace(err);
     res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
@@ -151,9 +151,9 @@ violationController.post("/upload", authUser("supervisor"), (req, res) => {
   });
 
   createManyViolation(mongoClient, violations as Violation[])
-    .then(res.send)
+    .then(res.json)
     .catch((err) => {
       console.error(err);
-      res.send("ok");
+      res.json(err.message);
     });
 });

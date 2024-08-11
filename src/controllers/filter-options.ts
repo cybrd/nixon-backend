@@ -41,7 +41,7 @@ filterOptionsController.get("/", authUser("supervisor"), (req, res) => {
       ] = `${x.under}-${x.violation}: ${x.description}`;
     });
 
-    res.send(filterOptions);
+    res.json(filterOptions);
   })().catch((err) => {
     console.trace(err);
     res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);

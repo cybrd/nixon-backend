@@ -24,7 +24,7 @@ userController.post("/login", (req, res) => {
     );
 
     if (user) {
-      res.send({
+      res.json({
         role: user.role,
         token: sign(
           {

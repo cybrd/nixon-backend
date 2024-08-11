@@ -12,7 +12,7 @@ handbookController.get("/", authUser("supervisor"), (req, res) => {
   (async () => {
     const result = await getHandbook(mongoClient);
 
-    res.send(result);
+    res.json(result);
   })().catch((err) => {
     console.trace(err);
     res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);

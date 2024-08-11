@@ -154,6 +154,6 @@ violationController.post("/upload", authUser("supervisor"), (req, res) => {
     .then(res.send)
     .catch((err) => {
       console.error(err);
-      res.send(err.message);
+      res.send("ok");
     });
 });

@@ -29,4 +29,4 @@ app.use((req, res) =>
   })
 );
 
-export const index = serverless(app);
+export const index = serverless(app, { binary: ["text/csv"] });

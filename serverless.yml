@@ -7,15 +7,13 @@ plugins:
 
 useDotenv: true
 
-custom:
-  apigwBinary:
-    types:
-      - "*/*"
-
 provider:
   name: aws
   runtime: nodejs20.x
   region: ap-southeast-1
+  apiGateway:
+    binaryMediaTypes:
+      - "text/csv"
 
 functions:
   express:

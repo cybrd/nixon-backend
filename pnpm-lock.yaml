@@ -75,9 +75,6 @@ importers:
       serverless:
         specifier: ^3.39.0
         version: 3.39.0
-      serverless-apigw-binary:
-        specifier: ^0.4.4
-        version: 0.4.4
       serverless-dotenv-plugin:
         specifier: ^6.0.0
         version: 6.0.0(serverless@3.39.0)
@@ -2733,10 +2730,6 @@ packages:
   serve-static@1.15.0:
     resolution: {integrity: sha512-XGuRDNjXUijsUL0vl6nSD7cwURuzEgglbOaFuZM9g3kwDXOWVTck0jLzjPzGD+TazWbboZYu52/9/XPdUgne9g==}
     engines: {node: '>= 0.8.0'}
-
-  serverless-apigw-binary@0.4.4:
-    resolution: {integrity: sha512-2DJmQTzeXa/+8u9ekReqf7j4gQjBtzQE4MK9nlOnEz4F7MVWCQXYlLPmf2TXSoxxJZzlWvIiNzCTq6vAT9F5FQ==}
-    engines: {node: '>=4.0'}
 
   serverless-dotenv-plugin@6.0.0:
     resolution: {integrity: sha512-8tLVNwHfDO0sBz6+m+DLTZquRk0AZq9rzqk3kphm1iIWKfan9R7RKt4hdq3eQ0kmDoqzudjPYBEXAJ5bUNKeGQ==}
@@ -6894,8 +6887,6 @@ snapshots:
       send: 0.18.0
     transitivePeerDependencies:
       - supports-color
-
-  serverless-apigw-binary@0.4.4: {}
 
   serverless-dotenv-plugin@6.0.0(serverless@3.39.0):
     dependencies:

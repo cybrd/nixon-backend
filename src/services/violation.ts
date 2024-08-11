@@ -47,5 +47,5 @@ export const createManyViolation = (client: MongoClient, data: Violation[]) => {
 
   const collection = client.db("nixon").collection<Violation>("violation");
 
-  return collection.insertMany(data);
+  return collection.insertMany(data, { ordered: false });
 };

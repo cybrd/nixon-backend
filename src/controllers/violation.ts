@@ -52,7 +52,7 @@ violationController.get("/", authUser("supervisor"), (req, res) => {
     ]);
 
     res.json({
-      counts,
+      counts: counts?.count,
       data,
     });
   })().catch((err) => {

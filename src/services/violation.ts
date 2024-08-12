@@ -1,5 +1,6 @@
 import { MongoClient, ObjectId } from "mongodb";
 
+import { Count } from "../models/mongodb";
 import { Violation } from "../models/violation";
 
 export const getViolation = (
@@ -49,7 +50,29 @@ export const getViolationCount = (client: MongoClient, filter = {}) => {
 
   const collection = client.db("nixon").collection<Violation>("violation");
 
-  return collection.countDocuments(filter);
+  return collection
+    .aggregate<Count>([
+      {
+        $lookup: {
+          as: "employeeData",
+          foreignField: "fingerPrintId",
+          from: "employee",
+          localField: "employeeNumber",
+        },
+      },
+      {
+        $match: {
+          employeeData: {
+            $ne: [],
+          },
+          ...filter,
+        },
+      },
+      {
+        $count: "count",
+      },
+    ])
+    .next();
 };
 
 export const createViolation = (client: MongoClient, data: Violation) => {

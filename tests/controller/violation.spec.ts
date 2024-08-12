@@ -39,7 +39,7 @@ describe("controller violation", () => {
     });
   });
 
-  describe.only("route DELETE /violation", () => {
+  describe("route DELETE /violation", () => {
     it("login fail", async () => {
       const result = await request(app)
         .delete("/violation/66b75814ea57098b23765820")

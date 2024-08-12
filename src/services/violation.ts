@@ -12,7 +12,33 @@ export const getViolation = (
   const collection = client.db("nixon").collection<Violation>("violation");
 
   return collection
-    .find(filter)
+    .aggregate([
+      {
+        $lookup: {
+          as: "employeeData",
+          foreignField: "fingerPrintId",
+          from: "employee",
+          localField: "employeeNumber",
+        },
+      },
+      {
+        $match: {
+          employeeData: {
+            $ne: [],
+          },
+          ...filter,
+        },
+      },
+      {
+        $replaceWith: {
+          $unsetField: {
+            field: "employeeData",
+            input: "$$ROOT",
+          },
+        },
+      },
+    ])
+    .sort({ controlNumber: -1 })
     .skip(options.page * options.limit)
     .limit(options.limit)
     .toArray();

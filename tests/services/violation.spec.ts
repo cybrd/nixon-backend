@@ -10,8 +10,8 @@ import {
 
 describe("service violation", () => {
   describe("getViolation", () => {
-    it("works", async () => {
-      const result = await getViolation(mongoClient);
+    it.only("works", async () => {
+      const result = await getViolation(mongoClient, { limit: 9999, page: 0 });
 
       assert.ok(result);
     });

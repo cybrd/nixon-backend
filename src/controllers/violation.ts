@@ -11,6 +11,7 @@ import {
   getViolation,
   getViolationById,
   getViolationCount,
+  updateViolation,
 } from "../services/violation";
 import { Violation } from "../models/violation";
 import { authUser } from "../middlewares/auth";
@@ -18,6 +19,46 @@ import { getEmployeeByFingerPrintId } from "../services/employee";
 import { objectRemoveEmpty } from "../helper/object-remove-empty";
 
 export const violationController = Router();
+
+const getEmployeeName = async (fingerPrintId: string) => {
+  const employee = await getEmployeeByFingerPrintId(mongoClient, fingerPrintId);
+
+  return employee?.name || "";
+};
+
+const customViolationFill = async (oldBody: Violation) => {
+  const body = oldBody;
+
+  if (body.under?.includes("-")) {
+    const [under, violation] = body.under.split("-");
+
+    body.under = under;
+    body.violation = violation;
+  }
+
+  if (body.employeeNumber) {
+    const employee = await getEmployeeByFingerPrintId(
+      mongoClient,
+      body.employeeNumber
+    );
+
+    if (employee) {
+      body.employeeName = employee.name;
+      body.position = employee.position;
+      body.department = employee.department;
+    }
+  }
+
+  if (body.deptHead) {
+    body.deptHead = await getEmployeeName(body.deptHead);
+  }
+
+  if (body.reportedBy) {
+    body.reportedBy = await getEmployeeName(body.reportedBy);
+  }
+
+  return body;
+};
 
 const customTransform = (oldObj: Record<string, string>) => {
   const newObj: typeof oldObj = {};
@@ -73,45 +114,31 @@ violationController.get("/:id", authUser("supervisor"), (req, res) => {
   });
 });
 
-const getEmployeeName = async (fingerPrintId: string) => {
-  const employee = await getEmployeeByFingerPrintId(mongoClient, fingerPrintId);
+violationController.put("/:id", authUser("supervisor"), (req, res) => {
+  (async () => {
+    const body = req.body as Violation;
 
-  return employee?.name || "";
-};
+    const result = await updateViolation(
+      mongoClient,
+      req.params.id,
+      await customViolationFill(body)
+    );
+
+    res.send(result);
+  })().catch((err) => {
+    console.trace(err);
+    res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+  });
+});
 
 violationController.post("/create", authUser("supervisor"), (req, res) => {
   (async () => {
     const body = req.body as Violation;
 
-    if (body.under?.includes("-")) {
-      const [under, violation] = body.under.split("-");
-
-      body.under = under;
-      body.violation = violation;
-    }
-
-    if (body.employeeNumber) {
-      const employee = await getEmployeeByFingerPrintId(
-        mongoClient,
-        body.employeeNumber
-      );
-
-      if (employee) {
-        body.employeeName = employee.name;
-        body.position = employee.position;
-        body.department = employee.department;
-      }
-    }
-
-    if (body.deptHead) {
-      body.deptHead = await getEmployeeName(body.deptHead);
-    }
-
-    if (body.reportedBy) {
-      body.reportedBy = await getEmployeeName(body.reportedBy);
-    }
-
-    const result = await createViolation(mongoClient, body);
+    const result = await createViolation(
+      mongoClient,
+      await customViolationFill(body)
+    );
 
     res.json(result);
   })().catch((err) => {

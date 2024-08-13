@@ -46,7 +46,7 @@ export const getViolation = (
 };
 
 export const getViolationById = (client: MongoClient, id: string) => {
-  console.log("getViolation");
+  console.log("getViolationById");
 
   const collection = client.db("nixon").collection<Violation>("violation");
 
@@ -89,6 +89,18 @@ export const createViolation = (client: MongoClient, data: Violation) => {
   const collection = client.db("nixon").collection<Violation>("violation");
 
   return collection.insertOne(data);
+};
+
+export const updateViolation = (
+  client: MongoClient,
+  id: string,
+  data: Violation
+) => {
+  console.log("updateViolation");
+
+  const collection = client.db("nixon").collection<Violation>("violation");
+
+  return collection.updateOne({ _id: new ObjectId(id) }, data);
 };
 
 export const deleteViolation = (client: MongoClient, id: string) => {

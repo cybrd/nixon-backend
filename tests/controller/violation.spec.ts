@@ -39,6 +39,25 @@ describe("controller violation", () => {
     });
   });
 
+  describe.only("route /violation/:id", () => {
+    it("login fail", async () => {
+      const result = await request(app)
+        .get("/violation/66b25b3be7fb9aa1273f1fe4")
+        .send();
+
+      assert.equal(result.statusCode, StatusCodes.UNAUTHORIZED);
+    });
+
+    it("works 200", async () => {
+      const result = await request(app)
+        .get("/violation/66b25b3be7fb9aa1273f1fe4")
+        .auth(token, { type: "bearer" })
+        .send();
+
+      assert.equal(result.statusCode, StatusCodes.OK);
+    });
+  });
+
   describe("route DELETE /violation", () => {
     it("login fail", async () => {
       const result = await request(app)

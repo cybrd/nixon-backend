@@ -5,6 +5,7 @@ import { mongoClient } from "../../src/connections";
 import {
   deleteViolation,
   getViolation,
+  getViolationById,
   getViolationCount,
 } from "../../src/services/violation";
 
@@ -17,8 +18,19 @@ describe("service violation", () => {
     });
   });
 
+  describe.only("getViolationById", () => {
+    it("works", async () => {
+      const result = await getViolationById(
+        mongoClient,
+        "66b25b3be7fb9aa1273f1fe4"
+      );
+
+      assert.ok(result);
+    });
+  });
+
   describe("getViolationCount", () => {
-    it.only("works", async () => {
+    it("works", async () => {
       const result = await getViolationCount(mongoClient);
 
       console.log(result);

@@ -45,6 +45,14 @@ export const getViolation = (
     .toArray();
 };
 
+export const getViolationById = (client: MongoClient, id: string) => {
+  console.log("getViolation");
+
+  const collection = client.db("nixon").collection<Violation>("violation");
+
+  return collection.findOne({ _id: new ObjectId(id) });
+};
+
 export const getViolationCount = (client: MongoClient, filter = {}) => {
   console.log("getViolationCount");
 

@@ -9,6 +9,7 @@ import {
   createViolation,
   deleteViolation,
   getViolation,
+  getViolationById,
   getViolationCount,
 } from "../services/violation";
 import { Violation } from "../models/violation";
@@ -55,6 +56,17 @@ violationController.get("/", authUser("supervisor"), (req, res) => {
       counts: counts?.count,
       data,
     });
+  })().catch((err) => {
+    console.trace(err);
+    res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+  });
+});
+
+violationController.get("/:id", authUser("supervisor"), (req, res) => {
+  (async () => {
+    const result = await getViolationById(mongoClient, req.params.id);
+
+    res.send(result);
   })().catch((err) => {
     console.trace(err);
     res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);

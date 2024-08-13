@@ -149,9 +149,13 @@ export const getViolationSummary = (
       {
         $group: {
           _id: { a: "$employeeNumber", b: "$under", c: "$violation" },
+          department: { $first: "$department" },
           description: { $first: "$description" },
+          employeeName: { $first: "$employeeName" },
+          employeeNumber: { $first: "$employeeNumber" },
           numberOfTimes: { $count: {} },
           penalty: { $first: "$penalty" },
+          position: { $first: "$position" },
           under: { $first: "$under" },
           violation: { $first: "$violation" },
         },

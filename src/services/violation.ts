@@ -100,7 +100,7 @@ export const updateViolation = (
 
   const collection = client.db("nixon").collection<Violation>("violation");
 
-  return collection.updateOne({ _id: new ObjectId(id) }, data);
+  return collection.updateOne({ _id: new ObjectId(id) }, { $set: data });
 };
 
 export const deleteViolation = (client: MongoClient, id: string) => {

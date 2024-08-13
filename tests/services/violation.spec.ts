@@ -18,7 +18,7 @@ describe("service violation", () => {
     });
   });
 
-  describe.only("getViolationById", () => {
+  describe("getViolationById", () => {
     it("works", async () => {
       const result = await getViolationById(
         mongoClient,

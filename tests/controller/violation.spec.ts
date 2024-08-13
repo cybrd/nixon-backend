@@ -39,7 +39,7 @@ describe("controller violation", () => {
     });
   });
 
-  describe.only("route /violation/:id", () => {
+  describe("route /violation/:id", () => {
     it("login fail", async () => {
       const result = await request(app)
         .get("/violation/66b25b3be7fb9aa1273f1fe4")
@@ -74,6 +74,34 @@ describe("controller violation", () => {
         .send();
 
       assert.equal(result.statusCode, StatusCodes.OK);
+    });
+  });
+
+  describe("route PUT /violation/:id", () => {
+    it("login fail", async () => {
+      const result = await request(app)
+        .put("/violation/66bb72ceba9d870feb4c1c69")
+        .send();
+
+      assert.equal(result.statusCode, StatusCodes.UNAUTHORIZED);
+    });
+
+    it("works 200", async () => {
+      const result = await request(app)
+        .put("/violation/66bb72ceba9d870feb4c1c69")
+        .auth(token, { type: "bearer" })
+        .send({
+          controlNumber: "test",
+          dateOfIncident: "2024-08-13",
+          deptHead: "4",
+          employeeNumber: "1",
+          incidentDescription: "222",
+          reportedBy: "5",
+          timeOfIncident: "11:13",
+          under: "Attendance-2",
+        });
+
+      assert.ok(result);
     });
   });
 });

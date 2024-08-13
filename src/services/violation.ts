@@ -118,3 +118,82 @@ export const createManyViolation = (client: MongoClient, data: Violation[]) => {
 
   return collection.insertMany(data, { ordered: false });
 };
+
+export const getViolationSummary = (
+  client: MongoClient,
+  options = { limit: 25, page: 0 },
+  filter = {}
+) => {
+  console.log("getViolationSummary");
+
+  const collection = client.db("nixon").collection<Violation>("violation");
+
+  return collection
+    .aggregate([
+      {
+        $lookup: {
+          as: "employeeData",
+          foreignField: "fingerPrintId",
+          from: "employee",
+          localField: "employeeNumber",
+        },
+      },
+      {
+        $match: {
+          employeeData: {
+            $ne: [],
+          },
+          ...filter,
+        },
+      },
+      {
+        $group: {
+          _id: { a: "$employeeNumber", b: "$under", c: "$violation" },
+          description: { $first: "$description" },
+          numberOfTimes: { $count: {} },
+          penalty: { $first: "$penalty" },
+          under: { $first: "$under" },
+          violation: { $first: "$violation" },
+        },
+      },
+    ])
+    .sort({ controlNumber: -1 })
+    .skip(options.page * options.limit)
+    .limit(options.limit)
+    .toArray();
+};
+
+export const getViolationSummaryCount = (client: MongoClient, filter = {}) => {
+  console.log("getViolationSummaryCount");
+
+  const collection = client.db("nixon").collection<Violation>("violation");
+
+  return collection
+    .aggregate<Count>([
+      {
+        $lookup: {
+          as: "employeeData",
+          foreignField: "fingerPrintId",
+          from: "employee",
+          localField: "employeeNumber",
+        },
+      },
+      {
+        $match: {
+          employeeData: {
+            $ne: [],
+          },
+          ...filter,
+        },
+      },
+      {
+        $group: {
+          _id: { a: "$employeeNumber", b: "$under", c: "$violation" },
+        },
+      },
+      {
+        $count: "count",
+      },
+    ])
+    .next();
+};

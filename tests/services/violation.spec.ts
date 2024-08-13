@@ -7,6 +7,8 @@ import {
   getViolation,
   getViolationById,
   getViolationCount,
+  getViolationSummary,
+  getViolationSummaryCount,
 } from "../../src/services/violation";
 
 describe("service violation", () => {
@@ -44,6 +46,31 @@ describe("service violation", () => {
         mongoClient,
         "66b75814ea57098b23765820"
       );
+
+      assert.ok(result);
+    });
+  });
+
+  describe("getViolationSummary", () => {
+    it("works", async () => {
+      const result = await getViolationSummary(
+        mongoClient,
+        {
+          limit: 9999,
+          page: 0,
+        },
+        { employeeNumber: "10301" }
+      );
+
+      assert.ok(result);
+    });
+  });
+
+  describe("getViolationSummaryCount", () => {
+    it("works", async () => {
+      const result = await getViolationSummaryCount(mongoClient, {
+        employeeNumber: "10301",
+      });
 
       assert.ok(result);
     });

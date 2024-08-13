@@ -11,6 +11,8 @@ import {
   getViolation,
   getViolationById,
   getViolationCount,
+  getViolationSummary,
+  getViolationSummaryCount,
   updateViolation,
 } from "../services/violation";
 import { Violation } from "../models/violation";
@@ -91,6 +93,35 @@ violationController.get("/", authUser("supervisor"), (req, res) => {
     const [data, counts] = await Promise.all([
       getViolation(mongoClient, { limit: 25, page: pageOption }, cleanFilter),
       getViolationCount(mongoClient, cleanFilter),
+    ]);
+
+    res.json({
+      counts: counts?.count,
+      data,
+    });
+  })().catch((err) => {
+    console.trace(err);
+    res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+  });
+});
+
+violationController.get("/summary", authUser("supervisor"), (req, res) => {
+  (async () => {
+    const { page, ...filters } = req.query as Record<string, string>;
+    const cleanFilter = customTransform(objectRemoveEmpty(filters));
+
+    let pageOption = 0;
+    if (page) {
+      pageOption = Number(page) - ONE;
+    }
+
+    const [data, counts] = await Promise.all([
+      getViolationSummary(
+        mongoClient,
+        { limit: 25, page: pageOption },
+        cleanFilter
+      ),
+      getViolationSummaryCount(mongoClient, cleanFilter),
     ]);
 
     res.json({

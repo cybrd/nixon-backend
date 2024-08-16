@@ -9,6 +9,7 @@ import {
   getViolationCount,
   getViolationSummary,
   getViolationSummaryCount,
+  recountByEmployee,
 } from "../../src/services/violation";
 
 describe("service violation", () => {
@@ -51,7 +52,7 @@ describe("service violation", () => {
     });
   });
 
-  describe.only("getViolationSummary", () => {
+  describe("getViolationSummary", () => {
     it("works", async () => {
       const result = await getViolationSummary(
         mongoClient,
@@ -72,6 +73,15 @@ describe("service violation", () => {
         employeeNumber: "10301",
       });
 
+      assert.ok(result);
+    });
+  });
+
+  describe.only("recountByEmployee", () => {
+    it("works", async () => {
+      const result = await recountByEmployee(mongoClient, "10301");
+
+      console.log(result);
       assert.ok(result);
     });
   });

@@ -20,6 +20,7 @@ export default tseslint.config(eslint.configs.all, ...tseslint.configs.strict, {
     "max-statements": ["error", { max: 20 }],
     "new-cap": 0,
     "no-console": 0,
+    "no-underscore-dangle": 0,
     "one-var": 0,
     "sort-imports": ["error", { allowSeparatedGroups: true }],
   },

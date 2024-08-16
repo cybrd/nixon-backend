@@ -1,4 +1,7 @@
+import { ObjectId } from "mongodb";
+
 export type Violation = {
+  _id: ObjectId;
   controlNumber: string;
   employeeNumber: string;
   employeeName: string;

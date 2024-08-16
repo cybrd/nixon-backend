@@ -1,4 +1,5 @@
 import { MongoClient, ObjectId } from "mongodb";
+import moment from "moment";
 
 import { Count } from "../models/mongodb";
 import { Violation } from "../models/violation";
@@ -94,7 +95,7 @@ export const createViolation = (client: MongoClient, data: Violation) => {
 export const updateViolation = (
   client: MongoClient,
   id: string,
-  data: Violation
+  data: Partial<Violation>
 ) => {
   console.log("updateViolation");
 
@@ -200,4 +201,52 @@ export const getViolationSummaryCount = (client: MongoClient, filter = {}) => {
       },
     ])
     .next();
+};
+
+export const recountByEmployee = async (
+  client: MongoClient,
+  employeeNumber: string
+) => {
+  console.log("recountByEmployee");
+
+  const collection = client.db("nixon").collection<Violation>("violation");
+
+  const records = await collection
+    .aggregate<Violation>([
+      {
+        $match: {
+          employeeNumber,
+        },
+      },
+    ])
+    .toArray();
+
+  records.sort((a, b) => {
+    const aTime = moment(`${a.dateOfIncident} ${a.timeOfIncident}`).unix();
+    const bTime = moment(`${b.dateOfIncident} ${b.timeOfIncident}`).unix();
+
+    return aTime - bTime;
+  });
+
+  const counter: { [k: string]: { [k: string]: number } } = {};
+
+  await Promise.all(
+    records.map((record) => {
+      if (!counter[record.under]) {
+        counter[record.under] = {};
+      }
+
+      if (!counter[record.under][record.violation]) {
+        counter[record.under][record.violation] = 0;
+      }
+
+      counter[record.under][record.violation] += 1;
+
+      return updateViolation(client, String(record._id), {
+        numberOfTimes: String(counter[record.under][record.violation]),
+      });
+    })
+  );
+
+  return counter;
 };

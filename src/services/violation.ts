@@ -14,7 +14,7 @@ export const getViolation = (
   const collection = client.db("nixon").collection<Violation>("violation");
 
   return collection
-    .aggregate([
+    .aggregate<Violation>([
       {
         $lookup: {
           as: "employeeData",
@@ -173,7 +173,16 @@ export const createManyViolation = (client: MongoClient, data: Violation[]) => {
 
   const collection = client.db("nixon").collection<Violation>("violation");
 
-  return collection.insertMany(data, { ordered: false });
+  return collection.insertMany(data, { ordered: false }).finally(() => {
+    const employees = new Set<string>();
+    data.forEach((x) => {
+      employees.add(x.employeeNumber);
+    });
+
+    return Array.from(employees).map((employee) => {
+      return recountByEmployee(client, employee);
+    });
+  });
 };
 
 export const getViolationSummary = (

@@ -10,6 +10,7 @@ import {
   getViolationSummary,
   getViolationSummaryCount,
   recountByEmployee,
+  createManyViolation,
 } from "../../src/services/violation";
 
 describe("service violation", () => {
@@ -77,11 +78,19 @@ describe("service violation", () => {
     });
   });
 
-  describe.only("recountByEmployee", () => {
+  describe("recountByEmployee", () => {
     it("works", async () => {
       const result = await recountByEmployee(mongoClient, "10301");
 
-      console.log(result);
+      assert.ok(result);
+    });
+  });
+
+  describe.skip("createManyViolation", () => {
+    it("works", async () => {
+      const violation = await getViolation(mongoClient);
+      const result = await createManyViolation(mongoClient, violation);
+
       assert.ok(result);
     });
   });

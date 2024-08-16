@@ -21,6 +21,7 @@ export default tseslint.config(eslint.configs.all, ...tseslint.configs.strict, {
     "new-cap": 0,
     "no-console": 0,
     "no-underscore-dangle": 0,
+    "no-use-before-define": "nofunc",
     "one-var": 0,
     "sort-imports": ["error", { allowSeparatedGroups: true }],
   },

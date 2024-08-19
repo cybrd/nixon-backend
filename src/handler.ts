@@ -9,6 +9,7 @@ import { handbookController } from "./controllers/handbook";
 import { testController } from "./controllers/test";
 import { userController } from "./controllers/user";
 import { violationController } from "./controllers/violation";
+import { violationSummaryController } from "./controllers/violation-summary";
 
 export const app = express();
 
@@ -21,6 +22,7 @@ app.use("/filterOptions", filterOptionsController);
 app.use("/handbook", handbookController);
 app.use("/test", testController);
 app.use("/user", userController);
+app.use("/violation/summary", violationSummaryController);
 app.use("/violation", violationController);
 
 app.use((req, res) =>

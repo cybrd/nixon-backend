@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { ONE, ZERO } from "../constants";
+import { ONE } from "../constants";
 import { mongoClient } from "../connections";
 
 import { getViolation, getViolationCount } from "../services/violation";
@@ -35,7 +35,7 @@ violationSummaryController.get("/:id", authUser("supervisor"), (req, res) => {
     ]);
 
     res.json({
-      employee: employee[ZERO],
+      employee: employee.shift(),
       violations: {
         counts: counts?.count,
         data,

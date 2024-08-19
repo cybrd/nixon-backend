@@ -7,6 +7,7 @@ import { mongoClient } from "../connections";
 import { getViolation, getViolationCount } from "../services/violation";
 import { authUser } from "../middlewares/auth";
 import { objectRemoveEmpty } from "../helper/object-remove-empty";
+import { getEmployees } from "../services/employee";
 
 export const violationSummaryController = Router();
 
@@ -23,14 +24,22 @@ violationSummaryController.get("/:id", authUser("supervisor"), (req, res) => {
       pageOption = Number(page) - ONE;
     }
 
-    const [data, counts] = await Promise.all([
+    const [data, counts, employee] = await Promise.all([
       getViolation(mongoClient, { limit: 25, page: pageOption }, cleanFilter),
       getViolationCount(mongoClient, cleanFilter),
+      getEmployees(
+        mongoClient,
+        { limit: 25, page: pageOption },
+        { fingerPrintId: req.params.id }
+      ),
     ]);
 
     res.json({
-      counts: counts?.count,
-      data,
+      employee,
+      violations: {
+        counts: counts?.count,
+        data,
+      },
     });
   })().catch((err) => {
     console.trace(err);

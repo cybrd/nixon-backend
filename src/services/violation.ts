@@ -123,9 +123,12 @@ export const recountByEmployee = async (
 
       counter[record.under][record.violation] += 1;
 
-      return updateViolation(client, String(record._id), {
-        numberOfTimes: String(counter[record.under][record.violation]),
-      });
+      return updateViolation(
+        client,
+        String(record._id),
+        { numberOfTimes: String(counter[record.under][record.violation]) },
+        false
+      );
     })
   );
 
@@ -145,7 +148,8 @@ export const createViolation = (client: MongoClient, data: Violation) => {
 export const updateViolation = (
   client: MongoClient,
   id: string,
-  data: Partial<Violation>
+  data: Partial<Violation>,
+  runRecount = true
 ) => {
   console.log("updateViolation");
 
@@ -153,7 +157,13 @@ export const updateViolation = (
 
   return collection
     .updateOne({ _id: new ObjectId(id) }, { $set: data })
-    .then(() => recountByEmployee(client, data.employeeNumber || ""));
+    .then(() => {
+      if (runRecount) {
+        return recountByEmployee(client, data.employeeNumber || "");
+      }
+
+      return null;
+    });
 };
 
 export const deleteViolation = async (client: MongoClient, id: string) => {

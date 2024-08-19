@@ -1,13 +1,13 @@
 import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { ONE } from "../constants";
+import { ONE, ZERO } from "../constants";
 import { mongoClient } from "../connections";
 
 import { getViolation, getViolationCount } from "../services/violation";
 import { authUser } from "../middlewares/auth";
-import { objectRemoveEmpty } from "../helper/object-remove-empty";
 import { getEmployees } from "../services/employee";
+import { objectRemoveEmpty } from "../helper/object-remove-empty";
 
 export const violationSummaryController = Router();
 
@@ -35,7 +35,7 @@ violationSummaryController.get("/:id", authUser("supervisor"), (req, res) => {
     ]);
 
     res.json({
-      employee,
+      employee: employee[ZERO],
       violations: {
         counts: counts?.count,
         data,

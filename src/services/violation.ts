@@ -9,7 +9,7 @@ export const getViolation = (
   options = { limit: 25, page: 0 },
   filter = {}
 ) => {
-  console.log("getViolation");
+  console.log("getViolation", filter);
 
   const collection = client.db("nixon").collection<Violation>("violation");
 
@@ -47,7 +47,7 @@ export const getViolation = (
 };
 
 export const getViolationById = (client: MongoClient, id: string) => {
-  console.log("getViolationById");
+  console.log("getViolationById", id);
 
   const collection = client.db("nixon").collection<Violation>("violation");
 
@@ -55,7 +55,7 @@ export const getViolationById = (client: MongoClient, id: string) => {
 };
 
 export const getViolationCount = (client: MongoClient, filter = {}) => {
-  console.log("getViolationCount");
+  console.log("getViolationCount", filter);
 
   const collection = client.db("nixon").collection<Violation>("violation");
 
@@ -88,7 +88,7 @@ export const recountByEmployee = async (
   client: MongoClient,
   employeeNumber: string
 ) => {
-  console.log("recountByEmployee");
+  console.log("recountByEmployee", employeeNumber);
 
   const collection = client.db("nixon").collection<Violation>("violation");
 
@@ -151,7 +151,7 @@ export const updateViolation = (
   data: Partial<Violation>,
   runRecount = true
 ) => {
-  console.log("updateViolation");
+  console.log("updateViolation", id);
 
   const collection = client.db("nixon").collection<Violation>("violation");
 
@@ -167,7 +167,7 @@ export const updateViolation = (
 };
 
 export const deleteViolation = async (client: MongoClient, id: string) => {
-  console.log("deleteViolation");
+  console.log("deleteViolation", id);
 
   const collection = client.db("nixon").collection<Violation>("violation");
 

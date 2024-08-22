@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
+import moment from "moment";
 
-import { ONE } from "../constants";
+import { ONE, ONE_THOUSAND } from "../constants";
 import { mongoClient } from "../connections";
 
 import {
@@ -55,6 +56,12 @@ const customViolationFill = async (oldBody: Violation) => {
 
   if (body.reportedBy) {
     body.reportedBy = await getEmployeeName(body.reportedBy);
+  }
+
+  if (body.dateOfIncident) {
+    body.parsedDateOfIncident = new Date(
+      moment(body.dateOfIncident).unix() * ONE_THOUSAND
+    );
   }
 
   return body;

@@ -6,6 +6,7 @@ import { mongoClient } from "../connections";
 
 import {
   createEmployee,
+  deleteEmployee,
   getEmployeeById,
   getEmployees,
   getEmployeesCount,
@@ -73,6 +74,17 @@ employeeController.post("/create", authUser("supervisor"), (req, res) => {
     const result = await createEmployee(mongoClient, body);
 
     res.json(result);
+  })().catch((err) => {
+    console.trace(err);
+    res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+  });
+});
+
+employeeController.delete("/:id", authUser("supervisor"), (req, res) => {
+  (async () => {
+    const result = await deleteEmployee(mongoClient, req.params.id);
+
+    res.send(result);
   })().catch((err) => {
     console.trace(err);
     res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);

@@ -64,3 +64,11 @@ export const updateEmployee = (
 
   return collection.updateOne({ _id: new ObjectId(id) }, { $set: data });
 };
+
+export const deleteEmployee = (client: MongoClient, id: string) => {
+  console.log("deleteEmployee", id);
+
+  const collection = client.db("nixon").collection<Employee>("employee");
+
+  return collection.deleteOne({ _id: new ObjectId(id) });
+};

@@ -6,6 +6,7 @@ import { mongoClient } from "../connections";
 
 import {
   createEmployee,
+  getEmployeeById,
   getEmployees,
   getEmployeesCount,
   updateEmployee,
@@ -35,6 +36,17 @@ employeeController.get("/", authUser("supervisor"), (req, res) => {
       counts,
       data,
     });
+  })().catch((err) => {
+    console.trace(err);
+    res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+  });
+});
+
+employeeController.get("/:id", authUser("supervisor"), (req, res) => {
+  (async () => {
+    const result = await getEmployeeById(mongoClient, req.params.id);
+
+    res.send(result);
   })().catch((err) => {
     console.trace(err);
     res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);

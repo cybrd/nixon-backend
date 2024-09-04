@@ -27,44 +27,50 @@ const getEmployeeName = async (fingerPrintId: string) => {
   return employee?.name || "";
 };
 
-const customViolationFill = async (oldBody: Violation) => {
-  const body = oldBody;
+const customViolationFill = async (oldRecord: Violation) => {
+  const record = oldRecord;
 
-  if (body.under?.includes("-")) {
-    const [under, violation] = body.under.split("-");
+  if (record.under?.includes("-")) {
+    const [under, violation] = record.under.split("-");
 
-    body.under = under;
-    body.violation = violation;
+    record.under = under;
+    record.violation = violation;
   }
 
-  if (body.employeeNumber) {
+  if (record.employeeNumber) {
     const employee = await getEmployeeByFingerPrintId(
       mongoClient,
-      body.employeeNumber
+      record.employeeNumber
     );
 
     if (employee) {
-      body.employeeName = employee.name;
-      body.position = employee.position;
-      body.department = employee.department;
+      if (!record.employeeName) {
+        record.employeeName = employee.name;
+      }
+      if (!record.position) {
+        record.position = employee.position;
+      }
+      if (!record.department) {
+        record.department = employee.department;
+      }
     }
   }
 
-  if (body.deptHead) {
-    body.deptHead = await getEmployeeName(body.deptHead);
+  if (record.deptHead && !isNaN(record.deptHead as unknown as number)) {
+    record.deptHead = await getEmployeeName(record.deptHead);
   }
 
-  if (body.reportedBy) {
-    body.reportedBy = await getEmployeeName(body.reportedBy);
+  if (record.reportedBy && !isNaN(record.reportedBy as unknown as number)) {
+    record.reportedBy = await getEmployeeName(record.reportedBy);
   }
 
-  if (body.dateOfIncident) {
-    body.parsedDateOfIncident = new Date(
-      moment(body.dateOfIncident).unix() * ONE_THOUSAND
+  if (record.dateOfIncident) {
+    record.parsedDateOfIncident = new Date(
+      moment(record.dateOfIncident).unix() * ONE_THOUSAND
     );
   }
 
-  return body;
+  return record;
 };
 
 violationController.get("/", authUser("supervisor"), (req, res) => {
@@ -148,40 +154,38 @@ violationController.delete("/:id", authUser("supervisor"), (req, res) => {
 });
 
 violationController.post("/upload", authUser("supervisor"), (req, res) => {
-  const keys = [
-    "controlNumber",
-    "employeeNumber",
-    "employeeName",
-    "department",
-    "position",
-    "deptHead",
-    "dateOfIncident",
-    "timeOfIncident",
-    "reportedBy",
-    "incidentDescription",
-    "under",
-    "violation",
-    "description",
-    "penalty",
-    "numberOfTimes",
-  ] as const;
+  (async () => {
+    const body = req.body as Record<string, string>[];
 
-  const body = req.body as string[][];
+    const violations: Partial<Violation>[] = [];
+    for await (const record of body) {
+      const violation = {
+        controlNumber: record["Control #"],
+        dateOfIncident: record["Date(s) of Incident"],
+        department: record.Department,
+        deptHead: record["Dept. Head"],
+        employeeName: record["Employee Name"],
+        employeeNumber: record["Employee No."],
+        incidentDescription:
+          record["Description of the Incident(s) or Behavior(s)"],
+        position: record.Position,
+        reportedBy: record["Reported by"],
+        timeOfIncident: record["Time of Incident"],
+        under: record.Under,
+        violation: record["Violation #"],
+      } as Violation;
 
-  const violations = body.map((record) => {
-    const violation: Partial<Violation> = {};
+      violations.push(await customViolationFill(violation));
+    }
 
-    record.forEach((x, i) => {
-      violation[keys[i]] = x;
-    });
-
-    return violation;
+    createManyViolation(mongoClient, violations as Violation[])
+      .then(res.json)
+      .catch((err) => {
+        console.error(err);
+        res.json(err.message);
+      });
+  })().catch((err) => {
+    console.trace(err);
+    res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
   });
-
-  createManyViolation(mongoClient, violations as Violation[])
-    .then(res.json)
-    .catch((err) => {
-      console.error(err);
-      res.json(err.message);
-    });
 });

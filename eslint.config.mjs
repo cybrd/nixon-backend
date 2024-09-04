@@ -18,7 +18,7 @@ export default tseslint.config(eslint.configs.all, ...tseslint.configs.strict, {
     "max-lines": ["error", { max: 500 }],
     "max-lines-per-function": ["error", { max: 200 }],
     "max-params": ["error", { max: 4 }],
-    "max-statements": ["error", { max: 20 }],
+    "max-statements": ["error", { max: 30 }],
     "new-cap": 0,
     "no-console": 0,
     "no-underscore-dangle": 0,

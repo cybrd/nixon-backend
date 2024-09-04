@@ -14,9 +14,11 @@ import {
   getViolationCount,
   updateViolation,
 } from "../services/violation";
+import { Handbook } from "../models/handbook";
 import { Violation } from "../models/violation";
 import { authUser } from "../middlewares/auth";
 import { getEmployeeByFingerPrintId } from "../services/employee";
+import { getHandbook } from "../services/handbook";
 import { objectRemoveEmpty } from "../helper/object-remove-empty";
 
 export const violationController = Router();
@@ -27,7 +29,10 @@ const getEmployeeName = async (fingerPrintId: string) => {
   return employee?.name || "";
 };
 
-const customViolationFill = async (oldRecord: Violation) => {
+const customViolationFill = async (
+  oldRecord: Violation,
+  handbook: Handbook[] = []
+) => {
   const record = oldRecord;
 
   if (record.under?.includes("-")) {
@@ -35,6 +40,23 @@ const customViolationFill = async (oldRecord: Violation) => {
 
     record.under = under;
     record.violation = violation;
+  }
+
+  if (!record.penalty || !record.description) {
+    if (record.under && record.violation) {
+      const violation = handbook.find(
+        (x) => x.under === record.under && x.violation === record.violation
+      );
+
+      if (violation) {
+        if (!record.penalty) {
+          record.penalty = violation.penalty;
+        }
+        if (!record.description) {
+          record.description = violation.description;
+        }
+      }
+    }
   }
 
   if (record.employeeNumber) {
@@ -156,6 +178,7 @@ violationController.delete("/:id", authUser("supervisor"), (req, res) => {
 violationController.post("/upload", authUser("supervisor"), (req, res) => {
   (async () => {
     const body = req.body as Record<string, string>[];
+    const handbook = await getHandbook(mongoClient);
 
     const violations: Partial<Violation>[] = [];
     for await (const record of body) {
@@ -175,7 +198,7 @@ violationController.post("/upload", authUser("supervisor"), (req, res) => {
         violation: record["Violation #"],
       } as Violation;
 
-      violations.push(await customViolationFill(violation));
+      violations.push(await customViolationFill(violation, handbook));
     }
 
     createManyViolation(mongoClient, violations as Violation[])

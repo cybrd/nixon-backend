@@ -180,26 +180,27 @@ violationController.post("/upload", authUser("supervisor"), (req, res) => {
     const body = req.body as Record<string, string>[];
     const handbook = await getHandbook(mongoClient);
 
-    const violations: Partial<Violation>[] = [];
-    for await (const record of body) {
-      const violation = {
-        controlNumber: record["Control #"],
-        dateOfIncident: record["Date(s) of Incident"],
-        department: record.Department,
-        deptHead: record["Dept. Head"],
-        employeeName: record["Employee Name"],
-        employeeNumber: record["Employee No."],
-        incidentDescription:
-          record["Description of the Incident(s) or Behavior(s)"],
-        position: record.Position,
-        reportedBy: record["Reported by"],
-        timeOfIncident: record["Time of Incident"],
-        under: record.Under,
-        violation: record["Violation #"],
-      } as Violation;
+    const violations: Partial<Violation>[] = await Promise.all(
+      body.map((record) => {
+        const violation = {
+          controlNumber: record["Control #"],
+          dateOfIncident: record["Date(s) of Incident"],
+          department: record.Department,
+          deptHead: record["Dept. Head"],
+          employeeName: record["Employee Name"],
+          employeeNumber: record["Employee No."],
+          incidentDescription:
+            record["Description of the Incident(s) or Behavior(s)"],
+          position: record.Position,
+          reportedBy: record["Reported by"],
+          timeOfIncident: record["Time of Incident"],
+          under: record.Under,
+          violation: record["Violation #"],
+        } as Violation;
 
-      violations.push(await customViolationFill(violation, handbook));
-    }
+        return customViolationFill(violation, handbook);
+      })
+    );
 
     createManyViolation(mongoClient, violations as Violation[])
       .then(res.json)

@@ -60,11 +60,15 @@ violationSummaryController.get("/:id", authUser("supervisor"), (req, res) => {
     }
 
     const [data, counts, employee] = await Promise.all([
-      getViolation(mongoClient, { limit: 25, page: pageOption }, cleanFilter),
+      getViolation(
+        mongoClient,
+        { limit: 99999, page: pageOption },
+        cleanFilter
+      ),
       getViolationCount(mongoClient, cleanFilter),
       getEmployees(
         mongoClient,
-        { limit: 25, page: pageOption },
+        { limit: 1, page: pageOption },
         { fingerPrintId: req.params.id }
       ),
     ]);

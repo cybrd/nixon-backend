@@ -23,13 +23,30 @@ filterOptionsController.get("/", authUser("supervisor"), (req, res) => {
       "department" | "fingerPrintId" | "handbook",
       Record<string, string>
     > = {
-      department: {},
+      department: {
+        Basemix: "Basemix",
+        Delivery: "Delivery",
+        Grains: "Grains",
+        Maintenance: "Maintenance",
+        Office: "Office",
+        "Packaging Materials": "Packaging Materials",
+        "Plant 1": "Plant 1",
+        "Plant 2": "Plant 2",
+        "Plant 3": "Plant 3",
+        "Plant 4": "Plant 4",
+        "Plant 5": "Plant 5",
+        "Plant 6": "Plant 6",
+        Premix: "Premix",
+        "Prepare Stocks": "Prepare Stocks",
+        "R.O Water": "R.O Water",
+        SILO: "SILO",
+        Warehouse: "Warehouse",
+      },
       fingerPrintId: {},
       handbook: {},
     };
 
     employees.forEach((employee) => {
-      filterOptions.department[employee.department] = employee.department;
       filterOptions.fingerPrintId[
         employee.fingerPrintId
       ] = `${employee.fingerPrintId} - ${employee.name}`;

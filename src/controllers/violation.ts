@@ -10,6 +10,7 @@ import {
   createViolation,
   deleteViolation,
   getViolation,
+  getViolationByControlNumber,
   getViolationById,
   getViolationCount,
   updateViolation,
@@ -119,6 +120,24 @@ violationController.get("/", authUser("supervisor"), (req, res) => {
     res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
   });
 });
+
+violationController.get(
+  "/print/:controlNumber",
+  authUser("supervisor"),
+  (req, res) => {
+    (async () => {
+      const result = await getViolationByControlNumber(
+        mongoClient,
+        req.params.controlNumber
+      );
+
+      res.send(result);
+    })().catch((err) => {
+      console.trace(err);
+      res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+    });
+  }
+);
 
 violationController.get("/:id", authUser("supervisor"), (req, res) => {
   (async () => {

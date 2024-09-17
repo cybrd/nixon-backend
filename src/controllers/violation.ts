@@ -6,7 +6,6 @@ import { ONE } from "../constants";
 import { mongoClient } from "../connections";
 
 import {
-  createManyViolation,
   createViolation,
   deleteViolation,
   getViolation,
@@ -14,6 +13,7 @@ import {
   getViolationById,
   getViolationCount,
   updateViolation,
+  upsertManyViolation,
 } from "../services/violation";
 import { Handbook } from "../models/handbook";
 import { Violation } from "../models/violation";
@@ -219,7 +219,7 @@ violationController.post("/upload", authUser("supervisor"), (req, res) => {
       })
     );
 
-    createManyViolation(mongoClient, violations as Violation[])
+    upsertManyViolation(mongoClient, violations as Violation[])
       .then(res.json)
       .catch((err) => {
         console.error(err);

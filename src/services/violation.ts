@@ -1,4 +1,4 @@
-import { MongoClient, ObjectId } from "mongodb";
+import { AnyBulkWriteOperation, MongoClient, ObjectId } from "mongodb";
 import moment from "moment";
 
 import { Count } from "../models/mongodb";
@@ -204,4 +204,27 @@ export const createManyViolation = (client: MongoClient, data: Violation[]) => {
       recountByEmployee(client, employee)
     );
   });
+};
+
+export const upsertManyViolation = (client: MongoClient, data: Violation[]) => {
+  console.log("upsertManyViolation");
+
+  const collection = client.db("nixon").collection<Violation>("violation");
+
+  const ops: AnyBulkWriteOperation<Violation>[] = [];
+
+  data.forEach((item) => {
+    ops.push({
+      updateOne: {
+        filter: { controlNumber: item.controlNumber },
+        update: {
+          $set: item,
+          $setOnInsert: item,
+        },
+        upsert: true,
+      },
+    });
+  });
+
+  return collection.bulkWrite(ops, { ordered: false });
 };

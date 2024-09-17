@@ -18,6 +18,7 @@ export type Violation = {
   penalty: string;
   numberOfTimes: string;
   parsedDateOfIncident: BetweenDate & Date;
+  action: string;
 };
 
 type BetweenDate = { $gte?: Date; $lte?: Date };

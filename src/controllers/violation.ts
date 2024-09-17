@@ -93,6 +93,8 @@ const customViolationFill = async (
     );
   }
 
+  console.log("customViolationFill", JSON.stringify(record));
+
   return record;
 };
 

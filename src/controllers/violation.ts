@@ -48,6 +48,8 @@ const customViolationFill = async (
       const violation = handbook.find(
         (x) => x.under === record.under && x.violation === record.violation
       );
+      console.log("customViolationFill handbook", JSON.stringify(handbook));
+      console.log("customViolationFill violation", JSON.stringify(violation));
 
       if (violation) {
         if (!record.penalty) {

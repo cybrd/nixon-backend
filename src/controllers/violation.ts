@@ -32,7 +32,7 @@ const getEmployeeName = async (fingerPrintId: string) => {
 
 const customViolationFill = async (
   oldRecord: Violation,
-  handbook: Handbook[] = []
+  handbook: Handbook[]
 ) => {
   const record = oldRecord;
 
@@ -48,8 +48,6 @@ const customViolationFill = async (
       const violation = handbook.find(
         (x) => x.under === record.under && x.violation === record.violation
       );
-      console.log("customViolationFill handbook", JSON.stringify(handbook));
-      console.log("customViolationFill violation", JSON.stringify(violation));
 
       if (violation) {
         if (!record.penalty) {
@@ -94,8 +92,6 @@ const customViolationFill = async (
       moment(record.dateOfIncident).valueOf()
     );
   }
-
-  console.log("customViolationFill", JSON.stringify(record));
 
   return record;
 };
@@ -157,11 +153,12 @@ violationController.get("/:id", authUser("supervisor"), (req, res) => {
 violationController.put("/:id", authUser("supervisor"), (req, res) => {
   (async () => {
     const body = req.body as Violation;
+    const handbook = await getHandbook(mongoClient);
 
     const result = await updateViolation(
       mongoClient,
       req.params.id,
-      await customViolationFill(body)
+      await customViolationFill(body, handbook)
     );
 
     res.send(result);
@@ -174,10 +171,11 @@ violationController.put("/:id", authUser("supervisor"), (req, res) => {
 violationController.post("/create", authUser("supervisor"), (req, res) => {
   (async () => {
     const body = req.body as Violation;
+    const handbook = await getHandbook(mongoClient);
 
     const result = await createViolation(
       mongoClient,
-      await customViolationFill(body)
+      await customViolationFill(body, handbook)
     );
 
     res.json(result);

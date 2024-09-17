@@ -211,18 +211,13 @@ export const upsertManyViolation = (client: MongoClient, data: Violation[]) => {
 
   const collection = client.db("nixon").collection<Violation>("violation");
 
-  const ops: AnyBulkWriteOperation<Violation>[] = data.map(
-    ({ controlNumber, ...item }) => ({
-      updateOne: {
-        filter: { controlNumber },
-        update: {
-          $set: item,
-          $setOnInsert: item,
-        },
-        upsert: true,
-      },
-    })
-  );
+  const ops: AnyBulkWriteOperation<Violation>[] = data.map((item) => ({
+    updateOne: {
+      filter: { controlNumber: item.controlNumber },
+      update: { $set: item },
+      upsert: true,
+    },
+  }));
 
   return collection.bulkWrite(ops, { ordered: false });
 };

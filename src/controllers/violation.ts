@@ -206,13 +206,9 @@ violationController.post("/upload", authUser("supervisor"), (req, res) => {
         const violation = {
           controlNumber: record["Control #"],
           dateOfIncident: record["Date(s) of Incident"],
-          department: record.Department,
           deptHead: record["Dept. Head"],
-          employeeName: record["Employee Name"],
           employeeNumber: record["Employee No."],
-          incidentDescription:
-            record["Description of the Incident(s) or Behavior(s)"],
-          position: record.Position,
+          incidentDescription: record["Incident Description"],
           reportedBy: record["Reported by"],
           timeOfIncident: record["Time of Incident"],
           under: record.Under,

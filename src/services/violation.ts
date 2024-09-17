@@ -219,5 +219,14 @@ export const upsertManyViolation = (client: MongoClient, data: Violation[]) => {
     },
   }));
 
-  return collection.bulkWrite(ops, { ordered: false });
+  return collection.bulkWrite(ops, { ordered: false }).finally(() => {
+    const employees = new Set<string>();
+    data.forEach((x) => {
+      employees.add(x.employeeNumber);
+    });
+
+    return Array.from(employees).map((employee) =>
+      recountByEmployee(client, employee)
+    );
+  });
 };

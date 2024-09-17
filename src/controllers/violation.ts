@@ -2,7 +2,7 @@ import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 import moment from "moment";
 
-import { ONE, ONE_THOUSAND } from "../constants";
+import { ONE } from "../constants";
 import { mongoClient } from "../connections";
 
 import {
@@ -89,9 +89,11 @@ const customViolationFill = async (
 
   if (record.dateOfIncident) {
     record.parsedDateOfIncident = new Date(
-      moment(record.dateOfIncident).unix() * ONE_THOUSAND
+      moment(record.dateOfIncident).valueOf()
     );
   }
+
+  console.log("customViolationFill", JSON.stringify(record));
 
   return record;
 };

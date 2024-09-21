@@ -185,7 +185,7 @@ violationController.post("/create", authUser("supervisor"), (req, res) => {
   });
 });
 
-violationController.delete("/:id", authUser("supervisor"), (req, res) => {
+violationController.delete("/:id", authUser("admin"), (req, res) => {
   (async () => {
     const result = await deleteViolation(mongoClient, req.params.id);
 
@@ -196,7 +196,7 @@ violationController.delete("/:id", authUser("supervisor"), (req, res) => {
   });
 });
 
-violationController.post("/upload", authUser("supervisor"), (req, res) => {
+violationController.post("/upload", authUser("admin"), (req, res) => {
   (async () => {
     const body = req.body as Record<string, string>[];
     const handbook = await getHandbook(mongoClient);

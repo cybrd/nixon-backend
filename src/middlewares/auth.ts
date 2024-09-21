@@ -29,7 +29,7 @@ export const authUser =
     try {
       const userToken = verify(token, "secret") as User;
 
-      if (role === userToken.role) {
+      if (userToken.role === "admin" || role === userToken.role) {
         getUserByUsername(mongoClient, userToken.username)
           .then((user) => {
             if (user) {

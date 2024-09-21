@@ -80,7 +80,7 @@ employeeController.post("/create", authUser("supervisor"), (req, res) => {
   });
 });
 
-employeeController.delete("/:id", authUser("supervisor"), (req, res) => {
+employeeController.delete("/:id", authUser("admin"), (req, res) => {
   (async () => {
     const result = await deleteEmployee(mongoClient, req.params.id);
 

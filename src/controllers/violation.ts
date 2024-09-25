@@ -209,7 +209,9 @@ violationController.post("/upload", authUser("admin"), (req, res) => {
           department: record["Dept."],
           deptHead: record["Dept. Head"],
           employeeNumber: record["Employee No."],
-          incidentDescription: record["Incident Description"],
+          incidentDescription:
+            record["Incident Description"] ||
+            record["Description of the Incident(s) or Behavior(s)"],
           position: record.Position,
           reportedBy: record["Reported by"],
           timeOfIncident: record["Time of Incident"],

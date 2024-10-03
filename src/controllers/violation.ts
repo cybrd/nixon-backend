@@ -204,6 +204,7 @@ violationController.post("/upload", authUser("admin"), (req, res) => {
     const violations: Partial<Violation>[] = await Promise.all(
       body.map((record) => {
         const violation = {
+          action: record.Action,
           controlNumber: record["Control #"],
           dateOfIncident: record["Date(s) of Incident"],
           department: record["Dept."],

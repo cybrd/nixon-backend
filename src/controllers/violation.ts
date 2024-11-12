@@ -100,6 +100,10 @@ violationController.get("/", authUser("supervisor"), (req, res) => {
   (async () => {
     const { page, ...filters } = req.query as Record<string, string>;
     const cleanFilter = objectRemoveEmpty(filters);
+    if (cleanFilter.fingerPrintId) {
+      cleanFilter.employeeNumber = cleanFilter.fingerPrintId;
+      delete cleanFilter.fingerPrintId;
+    }
 
     let pageOption = 0;
     if (page) {
